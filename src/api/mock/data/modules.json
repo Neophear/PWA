@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "Module 1",
+    "description": "Description for Module 1",
+    "spareparts": [
+      { "sparepart_id": 1 },
+      { "sparepart_id": 2 },
+      { "sparepart_id": 3 }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Module 2",
+    "description": "Description for Module 2",
+    "spareparts": [{ "sparepart_id": 4 }]
+  },
+  {
+    "id": 3,
+    "name": "Module 3",
+    "description": "Description for Module 3",
+    "spareparts": [
+      { "sparepart_id": 1 },
+      { "sparepart_id": 5 },
+      { "sparepart_id": 9 }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Module 4",
+    "description": "Description for Module 4",
+    "spareparts": [
+      { "sparepart_id": 3 },
+      { "sparepart_id": 8 },
+      { "sparepart_id": 2 }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Module 5",
+    "description": "Description for Module 5",
+    "spareparts": []
+  },
+  {
+    "id": 6,
+    "name": "Module 6",
+    "description": "Description for Module 6",
+    "spareparts": [
+      { "sparepart_id": 1 },
+      { "sparepart_id": 2 },
+      { "sparepart_id": 3 },
+      { "sparepart_id": 4 },
+      { "sparepart_id": 5 },
+      { "sparepart_id": 6 },
+      { "sparepart_id": 9 }
+    ]
+  }
+]

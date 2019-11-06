@@ -1,0 +1,53 @@
+<template>
+  <div>
+    <p v-if="loading">{{ message }}</p>
+    <div v-if="!loading">
+      <b-link
+        v-for="sp in SparePartStore.spareparts"
+        :to="{ name: 'sparepart', params: { id: sp.id } }"
+        :key="sp.id"
+        class="sparepart"
+      >
+        <div>
+          <h1>{{ sp.name }}</h1>
+          <p>{{ sp.description }}</p>
+        </div>
+      </b-link>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapState } from "vuex";
+
+export default {
+  data() {
+    return {
+      loading: true
+    };
+  },
+  computed: {
+    ...mapState(["SparePartStore"]) //Map 'sparepart' state from store/index
+  },
+  async created() {
+    await this.loadSpareParts();
+  },
+  methods: {
+    ...mapActions(["getSpareParts"]),
+    async loadSpareParts() {
+      this.message = "Henter reservedele...";
+      await this.getSpareParts();
+      this.message = "";
+      this.loading = false;
+    }
+  }
+};
+</script>
+
+<style scoped>
+.sparepart {
+  border-radius: 5px;
+  background-color: #aaa;
+  max-width: 400px;
+}
+</style>

@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Sparepart 1",
+    "description": "Description for Sparepart 1",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  },
+  {
+    "id": 2,
+    "name": "Sparepart 2",
+    "description": "Description for Sparepart 2",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  },
+  {
+    "id": 3,
+    "name": "Sparepart 3",
+    "description": "Description for Sparepart 3",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  },
+  {
+    "id": 4,
+    "name": "Sparepart 4",
+    "description": "Description for Sparepart 4",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  },
+  {
+    "id": 5,
+    "name": "Sparepart 5",
+    "description": "Description for Sparepart 5",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  },
+  {
+    "id": 6,
+    "name": "Sparepart 6",
+    "description": "Description for Sparepart 6",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  },
+  {
+    "id": 7,
+    "name": "Sparepart 7",
+    "description": "Description for Sparepart 7",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  },
+  {
+    "id": 8,
+    "name": "Sparepart 8",
+    "description": "Description for Sparepart 8",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  },
+  {
+    "id": 9,
+    "name": "Sparepart 9",
+    "description": "Description for Sparepart 9",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  },
+  {
+    "id": 10,
+    "name": "Sparepart 10",
+    "description": "Description for Sparepart 10",
+    "thumbnail": "https://placekitten.com/200/200",
+    "image": "https://placekitten.com/500/500"
+  }
+]

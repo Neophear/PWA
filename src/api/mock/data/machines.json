@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "name": "Machine 1",
+    "description": "Description for Machine 1",
+    "modules": [{ "module_id": 1 }, { "module_id": 4 }]
+  },
+  {
+    "id": 2,
+    "name": "Machine 2",
+    "description": "Description for Machine 2",
+    "modules": [{ "module_id": 5 }, { "module_id": 6 }]
+  },
+  {
+    "id": 3,
+    "name": "Machine3",
+    "description": "Description for Machine3",
+    "modules": [{ "module_id": 1 }]
+  },
+  {
+    "id": 4,
+    "name": "Machine 4",
+    "description": "Description for Machine 4",
+    "modules": [
+      { "module_id": 1 },
+      { "module_id": 2 },
+      { "module_id": 3 },
+      { "module_id": 4 },
+      { "module_id": 5 },
+      { "module_id": 6 }
+    ]
+  }
+]
