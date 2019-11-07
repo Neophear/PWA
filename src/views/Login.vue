@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { AUTH_REQUEST } from "../store/index";
+import { AUTH_REQUEST } from "../store/actions/auth";
 
 export default {
   name: "Login",
@@ -43,11 +43,16 @@ export default {
   methods: {
     onSubmit(e) {
       e.preventDefault();
-      alert(JSON.stringify(this.form));
-      const { username, password } = this;
-      this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
-        this.$router.push("/");
-      });
+      const { username, password } = this.form;
+      this.$store
+        .dispatch(AUTH_REQUEST, { username, password })
+        .then(() => {
+          this.$router.push("/");
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
     }
   }
 };

@@ -15,5 +15,14 @@ export default {
   },
   async getSpareParts() {
     return await fetchData("https://api.myjson.com/bins/b47no");
+  },
+  async authenticate(user) {
+    // eslint-disable-next-line no-console
+    console.log(user);
+    return await axios({
+      method: "post",
+      url: "https://localhost:44357/api/account/authenticate",
+      data: user
+    });
   }
 };

@@ -6,11 +6,10 @@ import {
   AUTH_SUCCESS,
   AUTH_LOGOUT
 } from "../actions/auth";
-import { USER_REQUEST } from "../actions/user";
 import api from "api-client";
 
 const state = {
-  token: localStorage.getItem("user-token") || "",
+  //token: localStorage.getItem("user-token") || "",
   status: "",
   hasLoadedOnce: false
 };
@@ -21,19 +20,24 @@ const getters = {
 };
 
 const actions = {
+  // eslint-disable-next-line no-unused-vars
   [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
+    // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
       commit(AUTH_REQUEST);
-      api({ url: "auth", data: user, method: "POST" })
+      // eslint-disable-next-line no-console
+      api
+        .authenticate(user)
         .then(resp => {
-          localStorage.setItem("user-token", resp.token);
-          commit(AUTH_SUCCESS, resp);
-          dispatch(USER_REQUEST);
-          resolve(resp);
+          if (resp.status === 200) {
+            commit(AUTH_SUCCESS, resp);
+            resolve(resp);
+          } else {
+            commit(AUTH_ERROR, resp);
+          }
         })
         .catch(err => {
           commit(AUTH_ERROR, err);
-          localStorage.removeItem("user-token");
           reject(err);
         });
     });
@@ -43,7 +47,7 @@ const actions = {
     // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
       commit(AUTH_LOGOUT);
-      localStorage.removeItem("user-token");
+      //localStorage.removeItem("user-token");
       resolve();
     });
   }
