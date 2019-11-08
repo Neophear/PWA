@@ -6,10 +6,12 @@ import store from "./store";
 import "./registerServiceWorker";
 import BootstrapVue from "bootstrap-vue";
 import "./custom.scss";
+import icons from "vue-icon";
 
 Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
+Vue.use(icons, "v-icon");
 
 new Vue({
   router,

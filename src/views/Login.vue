@@ -11,7 +11,6 @@
           placeholder="Indtast brugernavn"
         />
       </b-form-group>
-
       <b-form-group id="input-group-2" label="Password:" label-for="input-2">
         <b-form-input
           id="input-2"
@@ -21,7 +20,6 @@
           placeholder="Indtast password"
         />
       </b-form-group>
-
       <b-button type="submit" variant="primary" align-h="end">Login</b-button>
     </b-form>
   </div>
@@ -43,6 +41,8 @@ export default {
   methods: {
     onSubmit(e) {
       e.preventDefault();
+      // eslint-disable-next-line no-console
+      console.log(document.cookie);
       const { username, password } = this.form;
       this.$store
         .dispatch(AUTH_REQUEST, { username, password })

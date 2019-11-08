@@ -47,8 +47,20 @@ const actions = {
     // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
       commit(AUTH_LOGOUT);
-      //localStorage.removeItem("user-token");
-      resolve();
+      api
+        .logOut()
+        .then(resp => {
+          if (resp.status === 200) {
+            commit(AUTH_LOGOUT, resp);
+            resolve(resp);
+          } else {
+            commit(AUTH_ERROR, resp);
+          }
+        })
+        .catch(err => {
+          commit(AUTH_ERROR, err);
+          reject(err);
+        });
     });
   }
 };

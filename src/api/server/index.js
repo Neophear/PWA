@@ -4,9 +4,6 @@ import axios from "axios";
 const fetchData = async url => await axios.get(url);
 
 export default {
-  async getUsers() {
-    return await fetchData("https://api.myjson.com/bins/106k84");
-  },
   async getMachines() {
     return await fetchData("https://api.myjson.com/bins/11ba9w");
   },
@@ -17,12 +14,22 @@ export default {
     return await fetchData("https://api.myjson.com/bins/b47no");
   },
   async authenticate(user) {
-    // eslint-disable-next-line no-console
-    console.log(user);
-    return await axios({
-      method: "post",
-      url: "https://localhost:44357/api/account/authenticate",
-      data: user
+    return await axios.post(
+      "https://localhost:44357/api/account/authenticate",
+      user,
+      {
+        withCredentials: true
+      }
+    );
+  },
+  async logOut() {
+    return await axios.post("https://localhost:44357/api/account/signout", {
+      withCredentials: true
+    });
+  },
+  async getUsers() {
+    return await axios.get("https://localhost:44357/api/account", {
+      withCredentials: true
     });
   }
 };

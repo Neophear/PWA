@@ -9,6 +9,9 @@
           <b-nav-item :to="{ name: 'users' }">Users</b-nav-item>
           <b-nav-item :to="{ name: 'spareparts' }">Reservedele</b-nav-item>
           <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
+          <b-nav-item :to="{ name: 'about' }">
+            <v-icon name="log-out" />
+          </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -16,7 +19,41 @@
   </div>
 </template>
 
+<script>
+import { mapGetters } from "vuex";
+import { AUTH_LOGOUT } from "./store/actions/auth";
+
+export default {
+  computed: {
+    ...mapGetters(["isAuthenticated"])
+  },
+  data() {
+    return {
+      showHeader: false
+    };
+  },
+  methods: {
+    logOut() {
+      this.$store
+        .dispatch(AUTH_LOGOUT)
+        .then(() => {
+          this.$router.push("/login");
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    }
+  }
+};
+</script>
+
 <style lang="scss">
+.icon {
+  width: 24px;
+  height: 24px;
+  color: #2c3e50, 0.5;
+}
 #nav {
   padding: 30px;
 
@@ -30,18 +67,3 @@
   }
 }
 </style>
-
-<script>
-import { mapGetters } from "vuex";
-
-export default {
-  computed: {
-    ...mapGetters(["isAuthenticated"])
-  },
-  data() {
-    return {
-      showHeader: false
-    };
-  }
-};
-</script>
