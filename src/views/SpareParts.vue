@@ -9,8 +9,11 @@
         class="sparepart"
       >
         <div>
-          <h1>{{ sp.name }}</h1>
-          <p>{{ sp.description }}</p>
+          <b-img thumbnail :src="sp.thumbnailName" class="sm-col-2" />
+          <div class="sm-col-10">
+            <h1>{{ sp.name }}</h1>
+            <p>{{ sp.description }}</p>
+          </div>
         </div>
       </b-link>
     </div>

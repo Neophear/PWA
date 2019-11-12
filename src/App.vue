@@ -4,7 +4,6 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
           <b-nav-item :to="{ name: 'home' }">Home</b-nav-item>
           <b-nav-item :to="{ name: 'users' }">Users</b-nav-item>
           <b-nav-item :to="{ name: 'spareparts' }">Reservedele</b-nav-item>
@@ -26,11 +25,6 @@ import { AUTH_LOGOUT } from "./store/actions/auth";
 export default {
   computed: {
     ...mapGetters(["isAuthenticated"])
-  },
-  data() {
-    return {
-      showHeader: false
-    };
   },
   methods: {
     logOut() {
