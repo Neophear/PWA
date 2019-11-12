@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" v-if="isAuthenticated" type="dark" variant="dark">
+    <router-view />
+    <b-navbar
+      fixed="bottom"
+      toggleable="lg"
+      v-if="isAuthenticated"
+      type="dark"
+      variant="dark"
+    >
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
@@ -14,7 +21,6 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <router-view />
   </div>
 </template>
 
@@ -43,6 +49,9 @@ export default {
 </script>
 
 <style lang="scss">
+#app {
+  padding-bottom: 50px; //so that menu doesn't hide bottom page content
+}
 .icon {
   width: 24px;
   height: 24px;
