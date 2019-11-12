@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar toggleable="lg" v-if="isAuthenticated" type="dark" variant="dark">
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
@@ -9,7 +9,7 @@
           <b-nav-item :to="{ name: 'users' }">Users</b-nav-item>
           <b-nav-item :to="{ name: 'spareparts' }">Reservedele</b-nav-item>
           <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
-          <b-nav-item :to="{ name: 'about' }">
+          <b-nav-item v-on:click="logOut">
             <v-icon name="log-out" />
           </b-nav-item>
         </b-navbar-nav>

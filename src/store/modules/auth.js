@@ -9,7 +9,7 @@ import {
 import api from "api-client";
 
 const state = {
-  //token: localStorage.getItem("user-token") || "",
+  token: localStorage.getItem("user-token") || "",
   status: "",
   hasLoadedOnce: false
 };
@@ -22,22 +22,18 @@ const getters = {
 const actions = {
   // eslint-disable-next-line no-unused-vars
   [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
-    // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
       commit(AUTH_REQUEST);
-      // eslint-disable-next-line no-console
       api
         .authenticate(user)
-        .then(resp => {
-          if (resp.status === 200) {
-            commit(AUTH_SUCCESS, resp);
-            resolve(resp);
-          } else {
-            commit(AUTH_ERROR, resp);
-          }
+        .then(function(resp) {
+          localStorage.setItem("user-token", resp.data.token);
+          commit(AUTH_SUCCESS, resp);
+          resolve(resp);
         })
         .catch(err => {
           commit(AUTH_ERROR, err);
+          localStorage.removeItem("user-token");
           reject(err);
         });
     });
@@ -47,20 +43,8 @@ const actions = {
     // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
       commit(AUTH_LOGOUT);
-      api
-        .logOut()
-        .then(resp => {
-          if (resp.status === 200) {
-            commit(AUTH_LOGOUT, resp);
-            resolve(resp);
-          } else {
-            commit(AUTH_ERROR, resp);
-          }
-        })
-        .catch(err => {
-          commit(AUTH_ERROR, err);
-          reject(err);
-        });
+      localStorage.removeItem("user-token");
+      resolve();
     });
   }
 };
@@ -71,7 +55,7 @@ const mutations = {
   },
   [AUTH_SUCCESS]: (state, resp) => {
     state.status = "success";
-    state.token = resp.token;
+    state.token = resp.data.token;
     state.hasLoadedOnce = true;
   },
   [AUTH_ERROR]: state => {

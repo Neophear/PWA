@@ -6,7 +6,7 @@ import store from "./store";
 import "./registerServiceWorker";
 import BootstrapVue from "bootstrap-vue";
 import "./custom.scss";
-import icons from "vue-icon";
+import icons from "vue-icon"; //https://qinshenxue.github.io/vue-icon/
 
 Vue.config.productionTip = false;
 
