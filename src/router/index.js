@@ -6,6 +6,8 @@ import Users from "../views/Users";
 import SpareParts from "../views/SpareParts";
 import SparePart from "../views/SparePart";
 import Error from "../views/Error";
+import Machine from "../views/Machine";
+import Machines from "../views/Machines";
 
 Vue.use(VueRouter);
 
@@ -40,6 +42,16 @@ const routes = [
     name: "error",
     component: Error,
     props: true
+  },
+  {
+    path: "/machines",
+    name: "machines",
+    component: Machines
+  },
+  {
+    path: "/machine/:id",
+    name: "machine",
+    component: Machine
   },
   {
     path: "*",

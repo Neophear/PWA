@@ -9,6 +9,7 @@
           <b-nav-item :to="{ name: 'users' }">Users</b-nav-item>
           <b-nav-item :to="{ name: 'spareparts' }">Reservedele</b-nav-item>
           <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
+          <b-nav-item :to="{ name: 'machines' }">Machines</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

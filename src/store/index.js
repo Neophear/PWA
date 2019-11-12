@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import api from "api-client";
 import sparepart from "./modules/sparepart.js";
+import machine from "./modules/machine.js";
 
 import { AUTH_REQUEST, GET_USERS } from "./mutation-types";
 
@@ -41,6 +42,7 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules: {
-    SparePartStore: sparepart
+    SparePartStore: sparepart,
+    MachineStore: machine
   }
 });
