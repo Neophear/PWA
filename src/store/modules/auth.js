@@ -6,7 +6,6 @@ import {
   AUTH_SUCCESS,
   AUTH_LOGOUT
 } from "../actions/auth";
-import { USER_REQUEST } from "../actions/user";
 import api from "api-client";
 
 const state = {
@@ -21,14 +20,15 @@ const getters = {
 };
 
 const actions = {
+  // eslint-disable-next-line no-unused-vars
   [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
     return new Promise((resolve, reject) => {
       commit(AUTH_REQUEST);
-      api({ url: "auth", data: user, method: "POST" })
-        .then(resp => {
-          localStorage.setItem("user-token", resp.token);
+      api
+        .authenticate(user)
+        .then(function(resp) {
+          localStorage.setItem("user-token", resp.data.token);
           commit(AUTH_SUCCESS, resp);
-          dispatch(USER_REQUEST);
           resolve(resp);
         })
         .catch(err => {
@@ -55,7 +55,7 @@ const mutations = {
   },
   [AUTH_SUCCESS]: (state, resp) => {
     state.status = "success";
-    state.token = resp.token;
+    state.token = resp.data.token;
     state.hasLoadedOnce = true;
   },
   [AUTH_ERROR]: state => {
