@@ -16,8 +16,8 @@ const mutations = {
 
 const actions = {
   async getSpareParts({ commit }) {
-    const spareparts = await api.getSpareParts();
-    commit("setSpareParts", spareparts);
+    const resp = await api.getSpareParts();
+    commit("setSpareParts", resp.data);
   },
   async getSparePart({ commit }, id) {
     var sparepart = state.spareparts.find(sp => sp.id === id);
