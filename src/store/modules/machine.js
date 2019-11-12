@@ -16,8 +16,8 @@ const mutations = {
 
 const actions = {
     async getMachines({ commit }) {
-      const machines = await api.getMachines();
-      commit("setMachines", machines);
+      const resp = await api.getMachines();
+      commit("setMachines", resp.data);
     },
     async getMachine({ commit }, id) {
       var machine = state.machine.find(sp => sp.id === id);
