@@ -1,21 +1,23 @@
 <template>
-  <div>
+  <div id="app">
     <p v-if="loading">{{ message }}</p>
     <div v-if="!loading">
-      <b-link
-        v-for="sp in SparePartStore.spareparts"
-        :to="{ name: 'sparepart', params: { id: sp.id } }"
-        :key="sp.id"
-        class="sparepart"
-      >
-        <div>
-          <b-img thumbnail :src="sp.thumbnailName" class="sm-col-2" />
-          <div class="sm-col-10">
-            <h1>{{ sp.name }}</h1>
+      <b-container>
+        <b-link
+          v-for="sp in SparePartStore.spareparts"
+          :to="{ name: 'sparepart', params: { id: sp.id } }"
+          :key="sp.id"
+          class="sparepart"
+        >
+          <b-media>
+            <template v-slot:aside>
+              <b-img thumbnail :src="sp.thumbnailName" />
+            </template>
+            <h4>{{ sp.name }}</h4>
             <p>{{ sp.description }}</p>
-          </div>
-        </div>
-      </b-link>
+          </b-media>
+        </b-link>
+      </b-container>
     </div>
   </div>
 </template>
@@ -48,9 +50,15 @@ export default {
 </script>
 
 <style scoped>
+#app {
+  padding-top: 5px;
+}
 .sparepart {
   border-radius: 5px;
   background-color: #aaa;
   max-width: 400px;
+}
+a.sparepart {
+  color: black;
 }
 </style>

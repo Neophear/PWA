@@ -9,7 +9,7 @@ import {
 import api from "api-client";
 
 const state = {
-  token: localStorage.getItem("user-token") || "",
+  token: localStorage.getItem("user-token") || "", //Should not be stored in localStorage: https://auth0.com/docs/security/store-tokens
   status: "",
   hasLoadedOnce: false
 };
