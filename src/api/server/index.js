@@ -3,7 +3,6 @@ import axios from "axios";
 import router from "../../router";
 import store from "../../store";
 
-const fetchData = async url => await axios.get(url);
 
 axios.interceptors.request.use(
   config => {
@@ -27,10 +26,14 @@ axios.interceptors.response.use(
 
 export default {
   async getMachines() {
-    return await fetchData("https://api.myjson.com/bins/11ba9w");
+    return await axios.get("https://localhost:44357/api/machine");
+  },
+  async getMachine(id) {
+    var url = "https://localhost:44357/api/machine" + id;
+    return await axios.get(url);
   },
   async getModules() {
-    return await fetchData("https://api.myjson.com/bins/9bwuc");
+    return await axios.get("https://api.myjson.com/bins/9bwuc");
   },
   async getSpareParts() {
     return await axios.get("https://localhost:44357/api/sparepart");
