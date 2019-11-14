@@ -21,10 +21,14 @@ const state = {
     },
     async getModule({ commit }, id) {
       var module = state.modules.find(m => m.id === id);
-      if (!module) module = await api.getModule(id);
-      commit("setModule", module);
-    }
-  };
+      if (!module) {
+       api.getModule(id).then(resp => {
+        module = resp.data;
+    });
+  }
+  commit("setModule", Module);
+  }
+};
 
   export default {
     state,

@@ -2,42 +2,21 @@
   <div>
     <p v-if="message">{{ message }}</p>
     <div v-if="!loading">
-      <h1>{{ sp.name }}</h1>
-      <b-row>
-        <b-col cols="2">
-        <b-img thumbnail :src="sp.thumbnail" />
+      <h4>{{ sp.name }}</h4>
+      <b-row align-h ="start">
+        <b-col cols="1">
+        <b-img thumbnail :src="sp.thumbnailName" />
         </b-col>
-        <b-col cols="2">
-         <p>
-          {{sp.id}}
-        </p>
+        <b-col cols="1">
+           RES{{sp.id}}
         </b-col>
       </b-row>
-      <h2>Beskrivelse</h2>
+      <h6>Beskrivelse</h6>
       <b-row>
-        <b-col cols ="2">
+        <b-col>
       <p>
         {{sp.description}}
       </p>
-        </b-col>
-      </b-row>
-       </div>
-
-        <hr>
-
-       <div>
-         <h3>Moduler</h3>
-         <b-row>
-           <b-col cols ="2">
-             <b-img thumbnail src="https://placekitten.com/200/200"/>
-           </b-col>
-           <b-col cols="6">
-          <p>
-            modulnavn
-          </p>
-          <p>
-            modulnummer
-          </p>
         </b-col>
       </b-row>
        </div>
@@ -86,3 +65,18 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#app {
+  padding-top: 5px;
+}
+.sparepart {
+  border-radius: 5px;
+  background-color: #aaa;
+  max-width: 400px;
+}
+a.sparepart {
+  color: black;
+}
+</style>
+
