@@ -7,7 +7,7 @@
         <b-col cols="1">
         <b-img thumbnail :src="sp.thumbnailName" />
         </b-col>
-        <b-col cols="1">
+        <b-col cols="0">
            RES{{sp.id}}
         </b-col>
       </b-row>
