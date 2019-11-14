@@ -3,8 +3,6 @@ import axios from "axios";
 import router from "../../router";
 import store from "../../store";
 
-const fetchData = async url => await axios.get(url);
-
 axios.interceptors.request.use(
   config => {
     const token = store.state.AuthStore.token;
@@ -27,13 +25,20 @@ axios.interceptors.response.use(
 
 export default {
   async getMachines() {
-    return await fetchData("https://api.myjson.com/bins/11ba9w");
+    return await axios.get("https://localhost:44357/api/machine");
   },
   async getModules() {
-    return await fetchData("https://api.myjson.com/bins/9bwuc");
+    return await axios.get("https://localhost:44357/api/modules");
+  },
+  async getModule() {
+    return await axios.get("https://localhost:44357/api/module");
   },
   async getSpareParts() {
     return await axios.get("https://localhost:44357/api/sparepart");
+  },
+  async getSparePart(id) {
+    var url = "https://localhost:44357/api/sparepart/" + id;
+    return await axios.get(url);
   },
   async authenticate(user) {
     return await axios.post(

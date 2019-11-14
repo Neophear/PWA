@@ -22,6 +22,9 @@
         </b-col>
       </b-row>
        </div>
+
+        <hr>
+
        <div>
          <h3>Moduler</h3>
          <b-row>
