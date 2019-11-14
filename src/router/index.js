@@ -2,30 +2,43 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login";
-import Users from "../views/Users";
 import SpareParts from "../views/SpareParts";
 import SparePart from "../views/SparePart";
 import Error from "../views/Error";
 import Machine from "../views/Machine";
 import Machines from "../views/Machines";
+import store from "../store";
 
 Vue.use(VueRouter);
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters.isAuthenticated) {
+    next();
+    return;
+  }
+  next("/");
+};
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isAuthenticated) {
+    next();
+    return;
+  }
+  next("/login");
+};
 
 const routes = [
   {
     path: "/login",
     name: "login",
-    component: Login
+    component: Login,
+    beforeEnter: ifNotAuthenticated
   },
   {
     path: "/",
     name: "home",
-    component: Home
-  },
-  {
-    path: "/users",
-    name: "users",
-    component: Users
+    component: Home,
+    beforeEnter: ifAuthenticated
   },
   {
     path: "/spareparts",
