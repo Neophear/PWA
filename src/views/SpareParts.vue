@@ -50,13 +50,13 @@ export default {
 </script>
 
 <style scoped>
-#app {
-  padding-top: 5px;
-}
 .sparepart {
   border-radius: 5px;
   background-color: #aaa;
   max-width: 400px;
+}
+.sparepart > div {
+  padding: 5px 0px;
 }
 a.sparepart {
   color: black;
