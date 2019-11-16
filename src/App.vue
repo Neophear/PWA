@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <qrreader />
     <router-view />
     <b-navbar
       fixed="bottom"
@@ -8,7 +9,7 @@
       type="dark"
       variant="dark"
     >
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse" />
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'home' }">Home</b-nav-item>
@@ -27,8 +28,12 @@
 <script>
 import { mapGetters } from "vuex";
 import { AUTH_LOGOUT } from "./store/actions/auth";
+import QRreader from "./components/QRreader";
 
 export default {
+  components: {
+    qrreader: QRreader
+  },
   computed: {
     ...mapGetters(["isAuthenticated"])
   },
