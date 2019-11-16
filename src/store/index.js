@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== "production",
   modules: {
+    ModuleStore: module,
     SparePartStore: sparepart,
     AuthStore: auth
   }

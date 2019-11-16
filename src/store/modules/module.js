@@ -16,8 +16,8 @@ const state = {
 
   const actions = {
     async getModules({ commit }) {
-      const Modules = await api.getModules();
-      commit("setModules", modules);
+      const resp = await api.getModules();
+      commit("setModules", resp.data);
     },
     async getModule({ commit }, id) {
       var module = state.modules.find(m => m.id === id);
