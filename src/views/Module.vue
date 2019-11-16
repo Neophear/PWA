@@ -8,7 +8,7 @@
         <b-img thumbnail :src="m.thumbnailName" />
         </b-col>
         <b-col cols="0">
-           RES{{m.id}}
+           M{{m.id}}
         </b-col>
       </b-row>
       <h6>Beskrivelse</h6>
