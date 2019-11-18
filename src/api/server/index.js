@@ -28,10 +28,10 @@ export default {
     return await axios.get("https://localhost:44357/api/machine");
   },
   async getModules() {
-    return await axios.get("https://localhost:44357/api/modules");
-  },
-  async getModule() {
     return await axios.get("https://localhost:44357/api/module");
+  },
+  async getModule(id) {
+    return await axios.get("https://localhost:44357/api/module/" + id);
   },
   async getSpareParts() {
     return await axios.get("https://localhost:44357/api/sparepart");

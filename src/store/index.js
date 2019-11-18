@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import sparepart from "./modules/sparepart";
 import auth from "./modules/auth";
+import module from "./modules/module";
 
 Vue.use(Vuex);
 

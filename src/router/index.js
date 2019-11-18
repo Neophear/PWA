@@ -4,6 +4,8 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login";
 import SpareParts from "../views/SpareParts";
 import SparePart from "../views/SparePart";
+import Modules from "../views/Modules";
+import Module from "../views/Module";
 import Error from "../views/Error";
 import store from "../store";
 
@@ -47,6 +49,16 @@ const routes = [
     path: "/sparepart/:id",
     name: "sparepart",
     component: SparePart
+  },
+  {
+  path: "/modules",
+  name: "modules",
+  component: Modules
+  },
+  {
+    path: "/module/:id",
+    name: "module",
+    component: Module
   },
   {
     path: "/error",

@@ -22,11 +22,11 @@ const state = {
     async getModule({ commit }, id) {
       var module = state.modules.find(m => m.id === id);
       if (!module) {
-       api.getModule(id).then(resp => {
-        module = resp.data;
-    });
+       const resp = await api.getModule(id);
+       state.modules.push(resp.data);
+    
   }
-  commit("setModule", Module);
+  commit("setModule", module);
   }
 };
 
