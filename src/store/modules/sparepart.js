@@ -21,11 +21,12 @@ const actions = {
   },
   async getSparePart({ commit }, id) {
     var sparepart = state.spareparts.find(sp => sp.id === id);
+
     if (!sparepart) {
-      api.getSparePart(id).then(resp => {
-        sparepart = resp.data;
-      });
+      sparepart = await api.getSparePart(id);
+      state.spareparts.push(sparepart);
     }
+
     commit("setSparePart", sparepart);
   }
 };
