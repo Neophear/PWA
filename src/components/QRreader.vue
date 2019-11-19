@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <b-button v-b-modal.qrscanner><v-icon name="camera"/></b-button>
@@ -12,8 +13,10 @@
     </b-modal>
   </div>
 </template>
-
 <script>
+//import { mapActions, mapState } from "vuex";
+//import {getMachine, getModule, getSparePart } from "./../api/server/index";
+
 export default {
   data() {
     return {
@@ -22,9 +25,27 @@ export default {
     };
   },
   methods: {
-    onDecode(decodeString) {
-      this.code = decodeString;
+    async onDecode(decodeString) {
+      //this.code = 'hej';
+      const search = await this.$store.dispatch("getQR", decodeString)
+       if (search.type == "machine") {
+         
+         //getMachine(search.id)
+         router.push({ name: 'machine', params: { id: search.id } })
+         //this.router.push('http://localhost:8080/sparepart'+ search.id );
+         
+       }
+
+       if(search.type == "module"){
+         router.push({ name: 'module', params: { id: search.id } })
+       }
+
+       if(search.type == "sparepart"){
+         router.push({ name: 'sparepart', params: { id: search.id } })
+         
+       }
     }
+    
   },
   mounted() {
     this.camerasupported =

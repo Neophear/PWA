@@ -46,5 +46,8 @@ export default {
   },
   async getUsers() {
     return await axios.get("https://localhost:44357/api/account");
+  },
+  async getQR(code){
+    return await axios.get("https://localhost:44357/api/search/" + code)
   }
 };
