@@ -58,7 +58,7 @@ export default {
 .module > div {
   padding: 5px 0px;
 }
-a.module {
+m.module {
   color: black;
 }
 </style>

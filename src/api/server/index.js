@@ -31,13 +31,18 @@ export default {
     return await axios.get("https://localhost:44357/api/module");
   },
   async getModule(id) {
-    return await axios.get("https://localhost:44357/api/module/" + id);
+    var url = "https://localhost:44357/api/module/" + id;
+    return await axios.get(url);
   },
   async getSpareParts() {
     return await axios.get("https://localhost:44357/api/sparepart");
   },
   async getSparePart(id) {
     var url = "https://localhost:44357/api/sparepart/" + id;
+    return await axios.get(url);
+  },
+  async getSparePartsByModule(id) {
+    var url = "https://localhost:44357/api/module/"+ id  +"/spareparts";
     return await axios.get(url);
   },
   async authenticate(user) {
