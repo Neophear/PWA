@@ -5,7 +5,7 @@
     <b-navbar
       fixed="bottom"
       toggleable="lg"
-      v-if="isAuthenticated"
+      v-if="isAuthenticated && this.$route.name != 'home'"
       type="dark"
       variant="dark"
     >
@@ -38,15 +38,9 @@ export default {
   },
   methods: {
     logOut() {
-      this.$store
-        .dispatch(AUTH_LOGOUT)
-        .then(() => {
-          this.$router.push("/login");
-        })
-        .catch(err => {
-          // eslint-disable-next-line no-console
-          console.log(err);
-        });
+      this.$store.dispatch(AUTH_LOGOUT).then(() => {
+        this.$router.push("/login");
+      });
     }
   }
 };

@@ -3,7 +3,6 @@ import axios from "axios";
 import router from "../../router";
 import store from "../../store";
 
-
 axios.interceptors.request.use(
   config => {
     const token = store.state.AuthStore.token;
@@ -18,7 +17,11 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => response,
   error => {
-    if (error.response.status === 401 && !error.config.url.endsWith("/login"))
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !error.config.url.endsWith("/login")
+    )
       router.push({ name: "login" });
     else return Promise.reject(error);
   }
@@ -29,7 +32,7 @@ export default {
     return await axios.get("https://localhost:44357/api/machine");
   },
   async getMachine(id) {
-    var url = "https://localhost:44357/api/machine" + id;
+    var url = "https://localhost:44357/api/machine/" + id;
     return await axios.get(url);
   },
   async getModules() {
@@ -37,6 +40,9 @@ export default {
   },
   async getSpareParts() {
     return await axios.get("https://localhost:44357/api/sparepart");
+  },
+  async getSparePart(id) {
+    return await axios.get("https://localhost:44357/api/sparepart/" + id);
   },
   async authenticate(user) {
     return await axios.post(
