@@ -53,9 +53,9 @@ const routes = [
     component: SparePart
   },
   {
-  path: "/modules",
-  name: "modules",
-  component: Modules
+    path: "/modules",
+    name: "modules",
+    component: Modules
   },
   {
     path: "/module/:id",

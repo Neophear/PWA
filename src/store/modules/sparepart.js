@@ -3,7 +3,7 @@ import api from "api-client";
 const state = {
   spareparts: [],
   sparepart: {},
-  moduleSpareparts: [] 
+  moduleSpareParts: []
 };
 
 const mutations = {
@@ -13,8 +13,8 @@ const mutations = {
   setSparePart(state, sparepart) {
     state.sparepart = sparepart;
   },
-  setModuleSpareparts(state, moduleSpareparts) {
-    state.moduleSpareparts = moduleSpareparts;
+  setModuleSpareParts(state, moduleSpareParts) {
+    state.moduleSpareParts = moduleSpareParts;
   }
 };
 
@@ -28,21 +28,15 @@ const actions = {
 
     if (!sparepart) {
       const resp = await api.getSparePart(id);
-      state.spareparts.push(resp.data);
+      sparepart = resp.data;
     }
 
     commit("setSparePart", sparepart);
   },
   async getSparePartsByModule({ commit }, id) {
-    var moduleSpareparts = state.moduleSpareparts.find(ms => ms.id === id);
-    
-    if (!moduleSpareparts) {
-     const resp = await api.getSparePartsByModule(id);
-     state.moduleSpareparts.push(resp.data);
-    }
-    commit("setModuleSpareparts", moduleSpareparts);
-    }
-    
+    const resp = await api.getSparePartsByModule(id);
+    commit("setModuleSpareParts", resp.data);
+  }
 };
 
 export default {
