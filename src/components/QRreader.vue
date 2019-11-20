@@ -21,27 +21,28 @@ export default {
   data() {
     return {
       camerasupported: true,
-      code: "Code here"
+      code: "Indlæs QR kode"
     };
   },
   methods: {
     async onDecode(decodeString) {
-      this.code = decodeString;
+      //code = decodeString;
       
       api.getQR(decodeString)
       .then(resp => this.decodeResponse(resp.data))
       .catch(err => {
-        //Do errorhandling
         // eslint-disable-next-line no-console
         console.log(err);
+        this.code = "Kunne ikke indlæse QR, prøv igen";
       });
     },
     decodeResponse(data) {
-        // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.log(data);
 
       this.$router.push({ name: data.type.toLowerCase(), params: { id: data.id }});
     }
+    
     
   },
   mounted() {
