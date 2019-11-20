@@ -31,18 +31,27 @@ export default {
   async getMachines() {
     return await axios.get("https://localhost:44357/api/machine");
   },
+  async getModules() {
+    return await axios.get("https://localhost:44357/api/module");
+  },
+  async getModule(id) {
+    var url = "https://localhost:44357/api/module/" + id;
+    return await axios.get(url);
+  },
   async getMachine(id) {
     var url = "https://localhost:44357/api/machine/" + id;
     return await axios.get(url);
-  },
-  async getModules() {
-    return await axios.get("https://api.myjson.com/bins/9bwuc");
   },
   async getSpareParts() {
     return await axios.get("https://localhost:44357/api/sparepart");
   },
   async getSparePart(id) {
-    return await axios.get("https://localhost:44357/api/sparepart/" + id);
+    var url = "https://localhost:44357/api/sparepart/" + id;
+    return await axios.get(url);
+  },
+  async getSparePartsByModule(id) {
+    var url = "https://localhost:44357/api/module/" + id + "/spareparts";
+    return await axios.get(url);
   },
   async authenticate(user) {
     return await axios.post(
