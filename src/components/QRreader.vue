@@ -13,9 +13,9 @@
     </b-modal>
   </div>
 </template>
+
 <script>
-//import { mapActions, mapState } from "vuex";
-//import {getMachine, getModule, getSparePart } from "./../api/server/index";
+import api from "api-client";
 
 export default {
   data() {
@@ -26,24 +26,21 @@ export default {
   },
   methods: {
     async onDecode(decodeString) {
-      //this.code = 'hej';
-      const search = await this.$store.dispatch("getQR", decodeString)
-       if (search.type == "machine") {
-         
-         //getMachine(search.id)
-         router.push({ name: 'machine', params: { id: search.id } })
-         //this.router.push('http://localhost:8080/sparepart'+ search.id );
-         
-       }
+      this.code = decodeString;
+      
+      api.getQR(decodeString)
+      .then(resp => this.decodeResponse(resp.data))
+      .catch(err => {
+        //Do errorhandling
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
+    },
+    decodeResponse(data) {
+        // eslint-disable-next-line no-console
+      console.log(data);
 
-       if(search.type == "module"){
-         router.push({ name: 'module', params: { id: search.id } })
-       }
-
-       if(search.type == "sparepart"){
-         router.push({ name: 'sparepart', params: { id: search.id } })
-         
-       }
+      this.$router.push({ name: data.type.toLowerCase(), params: { id: data.id }});
     }
     
   },
