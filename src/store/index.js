@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import machine from "./modules/machine";
 import sparepart from "./modules/sparepart";
 import auth from "./modules/auth";
 import module from "./modules/module";
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   modules: {
     ModuleStore: module,
     SparePartStore: sparepart,
+    MachineStore: machine,
     AuthStore: auth
   }
 });

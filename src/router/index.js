@@ -7,6 +7,8 @@ import SparePart from "../views/SparePart";
 import Modules from "../views/Modules";
 import Module from "../views/Module";
 import Error from "../views/Error";
+import Machine from "../views/Machine";
+import Machines from "../views/Machines";
 import store from "../store";
 
 Vue.use(VueRouter);
@@ -65,6 +67,16 @@ const routes = [
     name: "error",
     component: Error,
     props: true
+  },
+  {
+    path: "/machines",
+    name: "machines",
+    component: Machines
+  },
+  {
+    path: "/machine/:id",
+    name: "machine",
+    component: Machine
   },
   {
     path: "*",

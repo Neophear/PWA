@@ -16,6 +16,7 @@
           <b-nav-item :to="{ name: 'spareparts' }">Reservedele</b-nav-item>
           <b-nav-item :to="{ name: 'modules' }">Moduler</b-nav-item>
           <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
+          <b-nav-item :to="{ name: 'machines' }">machines</b-nav-item>
           <b-nav-item v-on:click="logOut">
             <v-icon name="log-out" />
           </b-nav-item>

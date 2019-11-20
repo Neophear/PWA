@@ -3,6 +3,7 @@ import axios from "axios";
 import router from "../../router";
 import store from "../../store";
 
+
 axios.interceptors.request.use(
   config => {
     const token = store.state.AuthStore.token;
@@ -33,6 +34,13 @@ export default {
   async getModule(id) {
     var url = "https://localhost:44357/api/module/" + id;
     return await axios.get(url);
+  },
+  async getMachine(id) {
+    var url = "https://localhost:44357/api/machine" + id;
+    return await axios.get(url);
+  },
+  async getModules() {
+    return await axios.get("https://api.myjson.com/bins/9bwuc");
   },
   async getSpareParts() {
     return await axios.get("https://localhost:44357/api/sparepart");
