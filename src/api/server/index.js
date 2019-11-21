@@ -23,7 +23,18 @@ axios.interceptors.response.use(
       !error.config.url.endsWith("/login")
     )
       router.push({ name: "login" });
-    else return Promise.reject(error);
+    else {
+      var returnError = {};
+      returnError.status = error.response ? error.response.status : 408;
+
+      if (!error.response) returnError.message = "Serveren svarede ikke.";
+      else if (error.response.status.toString()[0] === "5")
+        returnError.message = "Fejl på serveren.";
+      else if (error.response.status === 404)
+        returnError.message = "Findes ikke.";
+
+      return Promise.reject(returnError);
+    }
   }
 );
 

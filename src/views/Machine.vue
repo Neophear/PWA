@@ -1,49 +1,50 @@
 <template>
   <div>
-    <p v-if="message">{{ message }}</p>
-    <div v-if="!loading">
-      <b-img thumbnail :src="sp.thumbnail" />
-      <p>{{ sp.name }}</p>
+    <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
+    <div v-if="machine">
+      <b-img thumbnail :src="machine.thumbnailName" />
+      <p>{{ machine.name }}</p>
     </div>
   </div>
 </template>
+
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
+  name: "Machine",
+  props: {
+    id: Number
+  },
   data() {
     return {
-      loading: true,
-      message: "",
-      sp: {}
+      alertType: "info",
+      message: "Henter maskine...",
+      machine: {}
     };
   },
   computed: {
-    ...mapState(["MachineStore"]) //Map 'Machine' state from store/index
+    ...mapGetters(["MachineStore"]),
+    ...mapState(["MachineStore"]) //MachineStore's state gets bound to this.X
   },
   async created() {
     await this.loadMachine();
   },
   methods: {
-    ...mapActions(["getMachine"]),
-    async loadSparepart() {
-      this.loading = true;
-      this.message = "Henter maskine...";
+    ...mapActions(["getMachines"]),
+    async loadMachine() {
+      if (!this.machinesLoaded) await this.$store.dispatch("getMachines");
 
-      await this.$store.dispatch("getMachine", this.$route.params.id);
+      this.machine = this.$store.getters["getMachine"](this.id);
 
-      if (!this.MachineStore.Machine) {
-        this.$router.replace({
-          name: "error",
-          params: {
-            title: "Ikke fundet!",
-            message: "Reservedelen findes ikke."
-          }
-        });
+      if (this.machine) {
+        this.message = undefined;
+      } else if (this.error) {
+        this.message = this.error.message;
+        this.alertType = "danger";
       } else {
-        this.mc = this.MachineStore.Machine;
-        this.message = "";
-        this.loading = false;
+        this.message = "Maskinen findes ikke.";
+        this.alertType = "danger";
       }
     }
   }

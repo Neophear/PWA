@@ -76,7 +76,10 @@ const routes = [
   {
     path: "/machine/:id",
     name: "machine",
-    component: Machine
+    component: Machine,
+    props: route => ({
+      id: Number.parseInt(route.params.id)
+    })
   },
   {
     path: "*",
