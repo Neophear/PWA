@@ -4,6 +4,8 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login";
 import SpareParts from "../views/SpareParts";
 import SparePart from "../views/SparePart";
+import Modules from "../views/Modules";
+import Module from "../views/Module";
 import Error from "../views/Error";
 import Machine from "../views/Machine";
 import Machines from "../views/Machines";
@@ -51,6 +53,16 @@ const routes = [
     component: SparePart
   },
   {
+    path: "/modules",
+    name: "modules",
+    component: Modules
+  },
+  {
+    path: "/module/:id",
+    name: "module",
+    component: Module
+  },
+  {
     path: "/error",
     name: "error",
     component: Error,
@@ -74,15 +86,6 @@ const routes = [
       title: "404",
       message: "Siden findes ikke."
     }
-  },
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
   }
 ];
 

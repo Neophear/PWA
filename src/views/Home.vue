@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <b-button block :to="{ name: 'home' }">Søg</b-button>
+    <b-button block :to="{ name: 'home' }"
+      >Find den rigtige reservedel</b-button
+    >
+    <b-button block>Dokumenter</b-button>
+    <b-button block>Hjælp</b-button>
+    <b-button block :to="{ name: 'machines' }">Alle maskiner</b-button>
+    <b-button block :to="{ name: 'modules' }">Alle moduler</b-button>
+    <b-button block :to="{ name: 'spareparts' }">Alle reservedele</b-button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
 export default {
-  name: "home",
-  components: {
-    HelloWorld
-  }
+  name: "home"
 };
 </script>
+
+<style lang="scss">
+.home {
+  margin: 0px 5px;
+}
+</style>

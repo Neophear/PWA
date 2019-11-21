@@ -15,19 +15,19 @@ const mutations = {
 };
 
 const actions = {
-    async getMachines({ commit }) {
-      const resp = await api.getMachines();
-      commit("setMachines", resp.data);
-    },
-    async getMachine({ commit }, id) {
-      var machine = state.machine.find(sp => sp.id === id);
-      if (!machine) machine = await api.getMachine(id);
-      commit("setMachine", machine);
-    }
-  };
+  async getMachines({ commit }) {
+    const resp = await api.getMachines();
+    commit("setMachines", resp.data);
+  },
+  async getMachine({ commit }, id) {
+    var machine = state.machine.find(sp => sp.id === id);
+    if (!machine) machine = await api.getMachine(id);
+    commit("setMachine", machine);
+  }
+};
 
-  export default {
-    state,
-    mutations,
-    actions
-  };
+export default {
+  state,
+  mutations,
+  actions
+};

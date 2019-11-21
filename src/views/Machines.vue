@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-if="loading">{{ message }}</p>
+    <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
     <div v-if="!loading">
       <b-link
         v-for="mc in MachineStore.machines"
@@ -23,7 +23,8 @@ import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
-      loading: true
+      loading: true,
+      alertType: "danger"
     };
   },
   computed: {
@@ -34,11 +35,24 @@ export default {
   },
   methods: {
     ...mapActions(["getMachines"]),
+    setMessage(msg, type) {
+      this.message = msg;
+      this.alertType = type;
+    },
     async loadMachines() {
-      this.message = "Henter maskiner...";
-      await this.getMachines();
-      this.message = "";
-      this.loading = false;
+      this.setMessage("Henter maskiner...", "info");
+      this.getMachines()
+        .then(() => {
+          this.setMessage("");
+          this.loading = false;
+        })
+        .catch(err => {
+          this.loading = false;
+          if (!err.response) this.setMessage("Network error.", "danger");
+          else if (err.response.status === 401)
+            //TODO: Should display correct message
+            this.message = "Wrong username or password.";
+        });
     }
   }
 };

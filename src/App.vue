@@ -5,16 +5,17 @@
     <b-navbar
       fixed="bottom"
       toggleable="lg"
-      v-if="isAuthenticated"
+      v-if="isAuthenticated && this.$route.name != 'home'"
       type="dark"
       variant="dark"
     >
       <b-navbar-toggle target="nav-collapse" />
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item :to="{ name: 'home' }">Home</b-nav-item>
+          <b-nav-item :to="{ name: 'home' }">Forside</b-nav-item>
+          <b-nav-item :to="{ name: 'machines' }">Maskiner</b-nav-item>
+          <b-nav-item :to="{ name: 'modules' }">Moduler</b-nav-item>
           <b-nav-item :to="{ name: 'spareparts' }">Reservedele</b-nav-item>
-          <b-nav-item :to="{ name: 'machines' }">machines</b-nav-item>
           <b-nav-item v-on:click="logOut">
             <v-icon name="log-out" />
           </b-nav-item>
@@ -38,15 +39,9 @@ export default {
   },
   methods: {
     logOut() {
-      this.$store
-        .dispatch(AUTH_LOGOUT)
-        .then(() => {
-          this.$router.push("/login");
-        })
-        .catch(err => {
-          // eslint-disable-next-line no-console
-          console.log(err);
-        });
+      this.$store.dispatch(AUTH_LOGOUT).then(() => {
+        this.$router.push("/login");
+      });
     }
   }
 };

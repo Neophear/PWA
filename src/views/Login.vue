@@ -57,11 +57,10 @@ export default {
           this.$router.push("/");
         })
         .catch(err => {
-          if (err.response.status === 401) {
-            //Wrong credentials
+          if (!err.response) this.msg = "Network error.";
+          else if (err.response.status === 401)
             this.msg = "Wrong username or password.";
-            this.dismissCountDown = 5;
-          }
+          this.dismissCountDown = 10;
         });
     }
   }

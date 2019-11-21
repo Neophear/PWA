@@ -4,17 +4,17 @@
     <div v-if="!loading">
       <b-container>
         <b-link
-          v-for="sp in SparePartStore.spareparts"
-          :to="{ name: 'sparepart', params: { id: sp.id } }"
-          :key="sp.id"
-          class="sparepart"
+          v-for="m in ModuleStore.modules"
+          :to="{ name: 'module', params: { id: m.id } }"
+          :key="m.id"
+          class="module"
         >
           <b-media>
             <template v-slot:aside>
-              <b-img thumbnail :src="sp.thumbnailName" />
+              <b-img thumbnail :src="m.thumbnailName" />
             </template>
-            <h4>{{ sp.name }}</h4>
-            <p>{{ sp.description }}</p>
+            <h4>{{ m.name }}</h4>
+            <p>{{ m.description }}</p>
           </b-media>
         </b-link>
       </b-container>
@@ -32,16 +32,16 @@ export default {
     };
   },
   computed: {
-    ...mapState(["SparePartStore"]) //Map 'sparepart' state from store/index
+    ...mapState(["ModuleStore"]) //Map 'module' state from store/index
   },
   async created() {
-    await this.loadSpareParts();
+    await this.loadModules();
   },
   methods: {
-    ...mapActions(["getSpareParts"]),
-    async loadSpareParts() {
-      this.message = "Henter reservedele...";
-      await this.getSpareParts();
+    ...mapActions(["getModules"]),
+    async loadModules() {
+      this.message = "Henter moduler...";
+      await this.getModules();
       this.message = "";
       this.loading = false;
     }
@@ -50,15 +50,15 @@ export default {
 </script>
 
 <style scoped>
-.sparepart {
+.module {
   border-radius: 5px;
   background-color: #aaa;
   max-width: 400px;
 }
-.sparepart > div {
+.module > div {
   padding: 5px 0px;
 }
-a.sparepart {
+m.module {
   color: black;
 }
 </style>
