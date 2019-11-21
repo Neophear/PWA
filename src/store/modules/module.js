@@ -16,8 +16,15 @@ const mutations = {
 
 const actions = {
   async getModules({ commit }) {
-    const resp = await api.getModules();
-    commit("setModules", resp.data);
+    api
+      .getModules()
+      .then(resp => {
+        commit("setModules", resp.data);
+      })
+      .catch(error => {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      });
   },
   async getModule({ commit }, id) {
     var module = state.modules.find(m => m.id === id);
