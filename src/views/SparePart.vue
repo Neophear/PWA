@@ -4,10 +4,10 @@
     <div v-if="!loading">
       <h4>{{ sp.name }}</h4>
       <b-row align-h="start">
-        <b-col cols="1">
+        <b-col>
           <b-img thumbnail :src="sp.thumbnailName" />
         </b-col>
-        <b-col cols="0">RES{{ sp.id }}</b-col>
+        <b-col>RES{{ sp.id }}</b-col>
       </b-row>
       <h6>Beskrivelse</h6>
       <b-row>

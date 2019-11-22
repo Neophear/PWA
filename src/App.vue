@@ -49,7 +49,8 @@ export default {
 
 <style lang="scss">
 #app {
-  padding-bottom: 50px; //so that menu doesn't hide bottom page content
+  padding: 0 10px 50px 10px;
+  //padding-bottom: 50px; //so that menu doesn't hide bottom page content
 }
 .icon {
   width: 24px;

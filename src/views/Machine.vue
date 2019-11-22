@@ -2,14 +2,28 @@
   <div>
     <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
     <div v-if="machine">
-      <b-img thumbnail :src="machine.thumbnailName" />
-      <p>{{ machine.name }}</p>
+      <b-modal
+        id="imageModal"
+        :title="machine.name"
+        :ok-only="true"
+        ok-title="Luk"
+      >
+        <b-img :src="machine.imageName" fluid-grow />
+      </b-modal>
+
+      <h1>
+        <b-img thumbnail :src="machine.thumbnailName" v-b-modal.imageModal />
+        <b-badge>{{ machine.name }}</b-badge>
+      </h1>
+      <p>Id: {{ machine.id }}</p>
+      <p>Stregkode: {{ machine.barcode }}</p>
+      <p>{{ machine.description }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Machine",
@@ -20,27 +34,27 @@ export default {
     return {
       alertType: "info",
       message: "Henter maskine...",
-      machine: {}
+      machine: undefined
     };
   },
   computed: {
-    ...mapGetters(["MachineStore"]),
-    ...mapState(["MachineStore"]) //MachineStore's state gets bound to this.X
+    ...mapState(["MachineStore"]),
+    ...mapGetters("MachineStore", ["machinesLoaded", "getMachine"])
   },
   async created() {
     await this.loadMachine();
   },
   methods: {
-    ...mapActions(["getMachines"]),
+    ...mapActions("MachineStore", ["getMachines"]),
     async loadMachine() {
-      if (!this.machinesLoaded) await this.$store.dispatch("getMachines");
+      if (!this.machinesLoaded) await this.getMachines();
 
-      this.machine = this.$store.getters["getMachine"](this.id);
+      this.machine = this.getMachine(this.id);
 
       if (this.machine) {
         this.message = undefined;
-      } else if (this.error) {
-        this.message = this.error.message;
+      } else if (this.MachineStore.error) {
+        this.message = this.MachineStore.error.message;
         this.alertType = "danger";
       } else {
         this.message = "Maskinen findes ikke.";
@@ -50,3 +64,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.badge {
+  margin: 0 10px;
+  vertical-align: top;
+}
+</style>
