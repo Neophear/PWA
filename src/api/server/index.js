@@ -62,9 +62,9 @@ export default {
   async getSparePart(id) {
     return await axios.get("https://localhost:44357/api/sparepart/" + id);
   },
-  async getSparePartsByModule(id) {
+  async getModuleSpareParts(moduleId) {
     return await axios.get(
-      "https://localhost:44357/api/module/" + id + "/spareparts"
+      "https://localhost:44357/api/module/" + moduleId + "/spareparts"
     );
   },
   async authenticate(user) {

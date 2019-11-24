@@ -1,24 +1,7 @@
 <template>
   <div>
     <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
-    <div v-if="machine" class="details">
-      <b-modal
-        id="imageModal"
-        :title="machine.name"
-        :ok-only="true"
-        ok-title="Luk"
-      >
-        <b-img :src="machine.imageName" fluid-grow />
-      </b-modal>
-
-      <h1>
-        <b-img thumbnail :src="machine.thumbnailName" v-b-modal.imageModal />
-        <b-badge>{{ machine.name }}</b-badge>
-      </h1>
-      <p>Id: {{ machine.id }}</p>
-      <p>Stregkode: {{ machine.barcode }}</p>
-      <p>{{ machine.description }}</p>
-    </div>
+    <detailsview v-if="machine" v-bind:object="machine" />
 
     <div v-if="machineModules">
       <h3>Moduler</h3>
@@ -29,6 +12,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
+import DetailsView from "../components/DetailsView";
 import ObjectList from "../components/ObjectList";
 
 export default {
@@ -37,6 +21,7 @@ export default {
     id: Number
   },
   components: {
+    detailsview: DetailsView,
     objectList: ObjectList
   },
   data() {
@@ -84,17 +69,10 @@ export default {
         this.message = this.ModuleStore.error.message;
         this.alertType = "danger";
       } else {
-        this.message = "Ingen moduler knyttet til maskinen.";
+        this.message = "Ingen moduler knyttet til denne maskine.";
         this.alertType = "warning";
       }
     }
   }
 };
 </script>
-
-<style scoped>
-.badge {
-  margin: 0 10px;
-  vertical-align: top;
-}
-</style>

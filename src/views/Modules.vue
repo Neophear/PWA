@@ -1,64 +1,57 @@
 <template>
   <div id="app">
-    <p v-if="loading">{{ message }}</p>
+    <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
+
     <div v-if="!loading">
-      <b-container>
-        <b-link
-          v-for="m in ModuleStore.modules"
-          :to="{ name: 'module', params: { id: m.id } }"
-          :key="m.id"
-          class="module"
-        >
-          <b-media>
-            <template v-slot:aside>
-              <b-img thumbnail :src="m.thumbnailName" />
-            </template>
-            <h4>{{ m.name }}</h4>
-            <p>{{ m.description }}</p>
-          </b-media>
-        </b-link>
-      </b-container>
+      <objectlist
+        v-bind:objects="ModuleStore.modules"
+        v-bind:routeName="'module'"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
+import ObjectList from "../components/ObjectList";
 
 export default {
+  components: {
+    objectlist: ObjectList
+  },
   data() {
     return {
-      loading: true
+      loading: true,
+      alertType: "info",
+      message: "Henter moduler..."
     };
   },
   computed: {
-    ...mapState(["ModuleStore"]) //Map 'module' state from store/index
+    ...mapState(["ModuleStore"]), //Map 'module' state from store/index
+    ...mapGetters(["ModuleStore/modulesLoaded"])
   },
   async created() {
     await this.loadModules();
   },
   methods: {
-    ...mapActions(["getModules"]),
+    ...mapActions("ModuleStore", ["getModules"]),
+    setMessage(msg, type) {
+      this.message = msg;
+      this.alertType = type;
+    },
     async loadModules() {
-      this.message = "Henter moduler...";
-      await this.getModules();
-      this.message = "";
+      if (!this.modulesLoaded) await this.getModules();
+
+      if (this.ModuleStore.modules.length > 0) {
+        this.setMessage(undefined);
+      } else if (this.ModuleStore.error) {
+        this.setMessage(this.ModuleStore.error.message, "danger");
+      } else {
+        this.setMessage("Ingen moduler tilgængelige.", "warning");
+      }
+
       this.loading = false;
     }
   }
 };
 </script>
-
-<style scoped>
-.module {
-  border-radius: 5px;
-  background-color: #aaa;
-  max-width: 400px;
-}
-.module > div {
-  padding: 5px 0px;
-}
-m.module {
-  color: black;
-}
-</style>

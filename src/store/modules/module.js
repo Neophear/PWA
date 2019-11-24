@@ -27,17 +27,6 @@ const mutations = {
 };
 
 const actions = {
-  async getMachineModules({ commit }, machineId) {
-    await api
-      .getMachineModules(machineId)
-      .then(resp => {
-        commit("setMachineModules", resp.data);
-        commit("setError", undefined);
-      })
-      .catch(error => {
-        commit("setError", error);
-      });
-  },
   async getModules({ commit }) {
     await api
       .getModules()
@@ -63,6 +52,17 @@ const actions = {
           commit("setError", error);
         });
     }
+  },
+  async getMachineModules({ commit }, machineId) {
+    await api
+      .getMachineModules(machineId)
+      .then(resp => {
+        commit("setMachineModules", resp.data);
+        commit("setError", undefined);
+      })
+      .catch(error => {
+        commit("setError", error);
+      });
   }
 };
 

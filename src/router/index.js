@@ -60,7 +60,10 @@ const routes = [
   {
     path: "/module/:id",
     name: "module",
-    component: Module
+    component: Module,
+    props: route => ({
+      id: Number.parseInt(route.params.id)
+    })
   },
   {
     path: "/error",
