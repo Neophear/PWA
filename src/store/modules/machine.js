@@ -27,6 +27,7 @@ const actions = {
       .getMachines()
       .then(resp => {
         commit("setMachines", resp.data);
+        commit("setError", undefined);
       })
       .catch(error => {
         commit("setError", error);

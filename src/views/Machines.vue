@@ -3,65 +3,74 @@
     <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
     <div v-if="!loading">
       <b-link
-        v-for="mc in MachineStore.machines"
-        :to="{ name: 'machine', params: { id: mc.id } }"
-        :key="mc.id"
+        v-for="m in MachineStore.machines"
+        :to="{ name: 'machine', params: { id: m.id } }"
+        :key="m.id"
         class="machine"
       >
-        <div>
-          <h1>{{ mc.name }}</h1>
-          <p>{{ mc.description }}</p>
-        </div>
+        <b-media>
+          <template v-slot:aside>
+            <b-img thumbnail :src="m.thumbnailName" />
+          </template>
+          <h4>{{ m.name }}</h4>
+          <p>{{ m.description }}</p>
+        </b-media>
       </b-link>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       loading: true,
-      alertType: "danger"
+      alertType: "info",
+      message: "Henter maskiner..."
     };
   },
   computed: {
-    ...mapState(["MachineStore"]) //Map 'machine' state from store/index
+    ...mapState(["MachineStore"]), //Map 'machine' state from store/index
+    ...mapGetters(["MachineStore/machinesLoaded"]) //Could also be mapGetters("MachineStore", ["machinesLoaded"])
   },
   async created() {
     await this.loadMachines();
   },
   methods: {
-    ...mapActions(["getMachines"]),
+    ...mapActions("MachineStore", ["getMachines"]),
     setMessage(msg, type) {
       this.message = msg;
       this.alertType = type;
     },
     async loadMachines() {
-      this.setMessage("Henter maskiner...", "info");
-      this.getMachines()
-        .then(() => {
-          this.setMessage("");
-          this.loading = false;
-        })
-        .catch(err => {
-          this.loading = false;
-          if (!err.response) this.setMessage("Network error.", "danger");
-          else if (err.response.status === 401)
-            //TODO: Should display correct message
-            this.message = "Wrong username or password.";
-        });
+      if (!this.machinesLoaded) await this.getMachines();
+
+      if (this.MachineStore.machines.length > 0) {
+        this.setMessage(undefined);
+      } else if (this.MachineStore.error) {
+        this.setMessage(this.MachineStore.error.message, "danger");
+      } else {
+        this.setMessage("Ingen maskiner tilgængelige.", "warning");
+      }
+
+      this.loading = false;
     }
   }
 };
 </script>
 
 <style scoped>
-.sparepart {
+.machine {
   border-radius: 5px;
   background-color: #aaa;
   max-width: 400px;
+}
+.machine > div {
+  padding: 5px 0px;
+}
+a.machine {
+  color: black;
 }
 </style>
