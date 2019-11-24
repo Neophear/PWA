@@ -2,28 +2,22 @@
   <div>
     <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
     <div v-if="!loading">
-      <b-link
-        v-for="m in MachineStore.machines"
-        :to="{ name: 'machine', params: { id: m.id } }"
-        :key="m.id"
-        class="machine"
-      >
-        <b-media>
-          <template v-slot:aside>
-            <b-img thumbnail :src="m.thumbnailName" />
-          </template>
-          <h4>{{ m.name }}</h4>
-          <p>{{ m.description }}</p>
-        </b-media>
-      </b-link>
+      <objectlist
+        v-bind:objects="MachineStore.machines"
+        v-bind:routeName="'machine'"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
+import ObjectList from "../components/ObjectList";
 
 export default {
+  components: {
+    objectlist: ObjectList
+  },
   data() {
     return {
       loading: true,
@@ -60,14 +54,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.machine {
-  border-radius: 5px;
-  background-color: #aaa;
-  max-width: 400px;
-}
-a.machine {
-  color: black;
-}
-</style>

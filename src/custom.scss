@@ -4,3 +4,19 @@
 body {
   background-color: #aeaecf;
 }
+.details .img-thumbnail {
+  width: 100px;
+  height: 100px;
+}
+.list {
+  border-radius: 5px;
+  background-color: #aaa;
+  max-width: 400px;
+}
+a.list {
+  color: black;
+}
+.list .img-thumbnail {
+  width: 80px;
+  height: 80px;
+}
