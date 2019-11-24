@@ -50,7 +50,10 @@ const routes = [
   {
     path: "/sparepart/:id",
     name: "sparepart",
-    component: SparePart
+    component: SparePart,
+    props: route => ({
+      id: Number.parseInt(route.params.id)
+    })
   },
   {
     path: "/modules",

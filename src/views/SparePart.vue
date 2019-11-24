@@ -1,77 +1,53 @@
 <template>
   <div>
-    <p v-if="message">{{ message }}</p>
-    <div v-if="!loading">
-      <h4>{{ sp.name }}</h4>
-      <b-row align-h="start">
-        <b-col>
-          <b-img thumbnail :src="sp.thumbnailName" />
-        </b-col>
-        <b-col>RES{{ sp.id }}</b-col>
-      </b-row>
-      <h6>Beskrivelse</h6>
-      <b-row>
-        <b-col>
-          <p>{{ sp.description }}</p>
-        </b-col>
-      </b-row>
-    </div>
+    <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
+    <detailsview v-if="sparepart" v-bind:object="sparepart" />
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
+import DetailsView from "../components/DetailsView";
 
 export default {
+  name: "SparePart",
+  props: {
+    id: Number
+  },
+  components: {
+    detailsview: DetailsView
+  },
   data() {
     return {
-      loading: true,
-      message: "",
-      sp: {}
+      alertType: "info",
+      message: "Henter reservedel...",
+      sparepart: undefined
     };
   },
   computed: {
-    ...mapState(["SparePartStore"]) //Map 'sparepart' state from store/index
+    ...mapState(["SparePartStore"]),
+    ...mapGetters("SparePartStore", ["sparePartsLoaded"])
   },
   async created() {
-    await this.loadSparepart();
+    await this.load();
   },
   methods: {
-    ...mapActions(["getSparePart"]),
-    async loadSparepart() {
-      this.loading = true;
-      this.message = "Henter reservedel...";
+    ...mapActions("SparePartStore", ["getSparePart"]),
+    async load() {
+      await this.getSparePart(this.id);
 
-      await this.$store.dispatch("getSparePart", this.$route.params.id);
+      this.sparepart = this.SparePartStore.sparepart;
 
-      if (!this.SparePartStore.sparepart) {
-        this.$router.replace({
-          name: "error",
-          params: {
-            title: "Ikke fundet!",
-            message: "Reservedelen findes ikke."
-          }
-        });
+      if (this.sparepart) {
+        this.message = undefined;
+      } else if (this.SparePartStore.error) {
+        this.message = this.SparePartStore.error.message;
+        this.alertType = "danger";
       } else {
-        this.sp = this.SparePartStore.sparepart;
-        this.message = "";
-        this.loading = false;
+        this.message = "Reservedelen findes ikke.";
+        this.alertType = "danger";
       }
     }
   }
 };
 </script>
-
-<style scoped>
-#app {
-  padding-top: 5px;
-}
-.sparepart {
-  border-radius: 5px;
-  background-color: #aaa;
-  max-width: 400px;
-}
-a.sparepart {
-  color: black;
-}
-</style>

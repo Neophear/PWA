@@ -8,7 +8,7 @@ const state = {
 };
 
 const getters = {
-  modulesLoaded: state => state.modules.length > 0
+  sparePartsLoaded: state => state.spareparts.length > 0
 };
 
 const mutations = {
@@ -29,7 +29,7 @@ const mutations = {
 const actions = {
   async getSpareParts({ commit }) {
     await api
-      .getSparePart()
+      .getSpareParts()
       .then(resp => {
         commit("setSpareParts", resp.data);
         commit("setError", undefined);
@@ -52,8 +52,6 @@ const actions = {
           commit("setError", error);
         });
     }
-
-    commit("setSparePart", sparepart);
   },
   async getModuleSpareParts({ commit }, moduleId) {
     await api
