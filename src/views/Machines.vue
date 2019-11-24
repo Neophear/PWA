@@ -67,9 +67,6 @@ export default {
   background-color: #aaa;
   max-width: 400px;
 }
-.machine > div {
-  padding: 5px 0px;
-}
 a.machine {
   color: black;
 }

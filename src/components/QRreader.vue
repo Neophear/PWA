@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button v-b-modal.qrscanner id="button">
+    <b-button v-b-modal.qrscanner>
       <v-icon name="camera" />
     </b-button>
     <b-modal id="qrscanner" title="Skan QR kode">
@@ -36,9 +36,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-#button {
-  margin: 5px;
-}
-</style>
