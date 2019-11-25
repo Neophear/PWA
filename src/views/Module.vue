@@ -1,110 +1,81 @@
 <template>
   <div>
-    <p v-if="message">{{ message }}</p>
-    <div v-if="!loading">
-      <h4>{{ m.name }}</h4>
-      <b-row align-h="start">
-        <b-col>
-          <b-img thumbnail :src="m.thumbnailName" />
-        </b-col>
-        <b-col>{{ m.id }}</b-col>
-      </b-row>
-      <h6>Beskrivelse</h6>
-      <b-row>
-        <b-col>
-          <p>{{ m.description }}</p>
-        </b-col>
-      </b-row>
-      <b-link
-        v-for="ms in ms"
-        :to="{ name: 'moduleSpareParts', params: { id: ms.id } }"
-        :key="ms.id"
-        class="module"
-      >
-        <h4>{{ ms.name }}</h4>
-        <b-row align-h="start">
-          <b-col cols="1">
-            <b-img thumbnail :src="ms.thumbnailName" />
-          </b-col>
-          <b-col cols="0">RES{{ ms.id }}</b-col>
-        </b-row>
-        <h6>Beskrivelse</h6>
-        <b-row>
-          <b-col>
-            <p>{{ ms.description }}</p>
-          </b-col>
-        </b-row>
-      </b-link>
+    <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
+    <detailsview v-if="module" v-bind:object="module" />
+
+    <div v-if="moduleSpareParts">
+      <h3>Moduler</h3>
+      <objectList
+        v-bind:objects="moduleSpareParts"
+        v-bind:routeName="'sparepart'"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
+import DetailsView from "../components/DetailsView";
+import ObjectList from "../components/ObjectList";
 
 export default {
+  name: "Module",
+  props: {
+    id: Number
+  },
+  components: {
+    detailsview: DetailsView,
+    objectList: ObjectList
+  },
   data() {
     return {
-      loading: true,
-      message: "",
-      m: {},
-      ms: {}
+      alertType: "info",
+      message: "Henter modul...",
+      module: undefined,
+      moduleSpareParts: []
     };
   },
   computed: {
-    ...mapState(["ModuleStore", "SparePartStore"])
+    ...mapState(["ModuleStore", "SparePartStore"]),
+    ...mapGetters("ModuleStore", ["modulesLoaded"])
   },
   async created() {
     await this.loadModule();
-    await this.loadModuleSpareParts();
   },
   methods: {
-    ...mapActions(["getModule", "getSparePartsByModule"]),
+    ...mapActions("ModuleStore", ["getModule"]),
+    ...mapActions("SparePartStore", ["getModuleSpareParts"]),
     async loadModule() {
-      this.loading = true;
-      this.message = "Henter moduler...";
+      await this.getModule(this.id);
 
-      await this.$store.dispatch("getModule", this.$route.params.id);
+      this.module = this.ModuleStore.module;
 
-      if (!this.ModuleStore.module) {
-        //Error handling
+      if (this.module) {
+        this.message = undefined;
+        await this.loadModuleSpareParts();
+      } else if (this.ModuleStore.error) {
+        this.message = this.ModuleStore.error.message;
+        this.alertType = "danger";
       } else {
-        this.m = this.ModuleStore.module;
-        this.message = "";
+        this.message = "Modulet findes ikke.";
+        this.alertType = "danger";
       }
-      this.loading = false;
     },
     async loadModuleSpareParts() {
-      this.loading = true;
-      this.message = "Henter reservedel...";
+      await this.getModuleSpareParts(this.id);
 
-      await this.$store.dispatch(
-        "getSparePartsByModule",
-        this.$route.params.id
-      );
+      this.moduleSpareParts = this.SparePartStore.moduleSpareParts;
 
-      if (!this.SparePartStore.moduleSpareParts) {
-        //Error handling
+      if (this.moduleSpareParts.length > 0) {
+        this.message = undefined;
+      } else if (this.SparePartStore.error) {
+        this.message = this.SparePartStore.error.message;
+        this.alertType = "danger";
       } else {
-        this.ms = this.SparePartStore.moduleSpareParts;
-        this.message = "";
+        this.message = "Ingen reservedele knyttet til dette modul.";
+        this.alertType = "warning";
       }
-      this.loading = false;
     }
   }
 };
 </script>
-
-<style scoped>
-#app {
-  padding-top: 5px;
-}
-.module {
-  border-radius: 5px;
-  background-color: #aaa;
-  max-width: 400px;
-}
-m.module {
-  color: black;
-}
-</style>

@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    <qrreader />
+    <b-container v-if="isAuthenticated" class="topBar">
+      <b-row>
+        <b-button v-if="this.$route.name != 'home'" @click="goBack">
+          <v-icon name="arrow-left-circle" />
+        </b-button>
+        <qrreader />
+      </b-row>
+    </b-container>
     <router-view />
     <b-navbar
       fixed="bottom"
@@ -42,6 +49,9 @@ export default {
       this.$store.dispatch(AUTH_LOGOUT).then(() => {
         this.$router.push("/login");
       });
+    },
+    goBack() {
+      this.$router.back();
     }
   }
 };
@@ -49,7 +59,8 @@ export default {
 
 <style lang="scss">
 #app {
-  padding-bottom: 50px; //so that menu doesn't hide bottom page content
+  padding: 10px 10px 50px 10px;
+  //padding-bottom: 50px; //so that menu doesn't hide bottom page content
 }
 .icon {
   width: 24px;
@@ -67,5 +78,11 @@ export default {
       color: #42b983;
     }
   }
+}
+.topBar {
+  margin-bottom: 10px;
+}
+.topBar button {
+  margin-right: 10px;
 }
 </style>

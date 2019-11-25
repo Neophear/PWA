@@ -50,7 +50,10 @@ const routes = [
   {
     path: "/sparepart/:id",
     name: "sparepart",
-    component: SparePart
+    component: SparePart,
+    props: route => ({
+      id: Number.parseInt(route.params.id)
+    })
   },
   {
     path: "/modules",
@@ -60,7 +63,10 @@ const routes = [
   {
     path: "/module/:id",
     name: "module",
-    component: Module
+    component: Module,
+    props: route => ({
+      id: Number.parseInt(route.params.id)
+    })
   },
   {
     path: "/error",
@@ -76,7 +82,10 @@ const routes = [
   {
     path: "/machine/:id",
     name: "machine",
-    component: Machine
+    component: Machine,
+    props: route => ({
+      id: Number.parseInt(route.params.id)
+    })
   },
   {
     path: "*",

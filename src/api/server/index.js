@@ -23,7 +23,18 @@ axios.interceptors.response.use(
       !error.config.url.endsWith("/login")
     )
       router.push({ name: "login" });
-    else return Promise.reject(error);
+    else {
+      var returnError = {};
+      returnError.status = error.response ? error.response.status : 408;
+
+      if (!error.response) returnError.message = "Serveren svarede ikke.";
+      else if (error.response.status.toString()[0] === "5")
+        returnError.message = "Fejl på serveren.";
+      else if (error.response.status === 404)
+        returnError.message = "Findes ikke.";
+
+      return Promise.reject(returnError);
+    }
   }
 );
 
@@ -31,36 +42,36 @@ export default {
   async getMachines() {
     return await axios.get("https://localhost:44357/api/machine");
   },
+  async getMachine(id) {
+    return await axios.get("https://localhost:44357/api/machine/" + id);
+  },
+  async getMachineModules(machineId) {
+    return await axios.get(
+      "https://localhost:44357/api/machine/" + machineId + "/modules"
+    );
+  },
   async getModules() {
     return await axios.get("https://localhost:44357/api/module");
   },
   async getModule(id) {
-    var url = "https://localhost:44357/api/module/" + id;
-    return await axios.get(url);
-  },
-  async getMachine(id) {
-    var url = "https://localhost:44357/api/machine/" + id;
-    return await axios.get(url);
+    return await axios.get("https://localhost:44357/api/module/" + id);
   },
   async getSpareParts() {
     return await axios.get("https://localhost:44357/api/sparepart");
   },
   async getSparePart(id) {
-    var url = "https://localhost:44357/api/sparepart/" + id;
-    return await axios.get(url);
+    return await axios.get("https://localhost:44357/api/sparepart/" + id);
   },
-  async getSparePartsByModule(id) {
-    var url = "https://localhost:44357/api/module/" + id + "/spareparts";
-    return await axios.get(url);
+  async getModuleSpareParts(moduleId) {
+    return await axios.get(
+      "https://localhost:44357/api/module/" + moduleId + "/spareparts"
+    );
   },
   async authenticate(user) {
     return await axios.post(
       "https://localhost:44357/api/authenticate/login",
       user
     );
-  },
-  async getUsers() {
-    return await axios.get("https://localhost:44357/api/account");
   },
   async getQR(code){
     return await axios.get("https://localhost:44357/api/search/" + code)

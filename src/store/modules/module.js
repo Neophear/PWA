@@ -2,7 +2,13 @@ import api from "api-client";
 
 const state = {
   modules: [],
-  module: {}
+  module: {},
+  machineModules: [],
+  error: {}
+};
+
+const getters = {
+  modulesLoaded: state => state.modules.length > 0
 };
 
 const mutations = {
@@ -11,35 +17,59 @@ const mutations = {
   },
   setModule(state, module) {
     state.module = module;
+  },
+  setMachineModules(state, modules) {
+    state.machineModules = modules;
+  },
+  setError(state, error) {
+    state.error = error;
   }
 };
 
 const actions = {
   async getModules({ commit }) {
-    api
+    await api
       .getModules()
       .then(resp => {
         commit("setModules", resp.data);
+        commit("setError", undefined);
       })
       .catch(error => {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        commit("setError", error);
       });
   },
   async getModule({ commit }, id) {
     var module = state.modules.find(m => m.id === id);
 
     if (!module) {
-      const resp = await api.getModule(id);
-      module = resp.data;
+      await api
+        .getModule(id)
+        .then(resp => {
+          commit("setModule", resp.data);
+          commit("setError", undefined);
+        })
+        .catch(error => {
+          commit("setError", error);
+        });
     }
-
-    commit("setModule", module);
+  },
+  async getMachineModules({ commit }, machineId) {
+    await api
+      .getMachineModules(machineId)
+      .then(resp => {
+        commit("setMachineModules", resp.data);
+        commit("setError", undefined);
+      })
+      .catch(error => {
+        commit("setError", error);
+      });
   }
 };
 
 export default {
+  namespaced: true,
   state,
   mutations,
-  actions
+  actions,
+  getters
 };

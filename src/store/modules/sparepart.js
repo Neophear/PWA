@@ -3,7 +3,12 @@ import api from "api-client";
 const state = {
   spareparts: [],
   sparepart: {},
-  moduleSpareParts: []
+  moduleSpareParts: [],
+  error: {}
+};
+
+const getters = {
+  sparePartsLoaded: state => state.spareparts.length > 0
 };
 
 const mutations = {
@@ -15,32 +20,56 @@ const mutations = {
   },
   setModuleSpareParts(state, moduleSpareParts) {
     state.moduleSpareParts = moduleSpareParts;
+  },
+  setError(state, error) {
+    state.error = error;
   }
 };
 
 const actions = {
   async getSpareParts({ commit }) {
-    const resp = await api.getSpareParts();
-    commit("setSpareParts", resp.data);
+    await api
+      .getSpareParts()
+      .then(resp => {
+        commit("setSpareParts", resp.data);
+        commit("setError", undefined);
+      })
+      .catch(error => {
+        commit("setError", error);
+      });
   },
   async getSparePart({ commit }, id) {
     var sparepart = state.spareparts.find(sp => sp.id === id);
 
     if (!sparepart) {
-      const resp = await api.getSparePart(id);
-      sparepart = resp.data;
+      await api
+        .getSparePart(id)
+        .then(resp => {
+          commit("setSparePart", resp.data);
+          commit("setError", undefined);
+        })
+        .catch(error => {
+          commit("setError", error);
+        });
     }
-
-    commit("setSparePart", sparepart);
   },
-  async getSparePartsByModule({ commit }, id) {
-    const resp = await api.getSparePartsByModule(id);
-    commit("setModuleSpareParts", resp.data);
+  async getModuleSpareParts({ commit }, moduleId) {
+    await api
+      .getModuleSpareParts(moduleId)
+      .then(resp => {
+        commit("setModuleSpareParts", resp.data);
+        commit("setError", undefined);
+      })
+      .catch(error => {
+        commit("setError", error);
+      });
   }
 };
 
 export default {
+  namespaced: true,
   state,
   mutations,
-  actions
+  actions,
+  getters
 };

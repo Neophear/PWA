@@ -17,9 +17,3 @@ export default {
   name: "home"
 };
 </script>
-
-<style lang="scss">
-.home {
-  margin: 0px 5px;
-}
-</style>

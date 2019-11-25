@@ -1,49 +1,76 @@
 <template>
   <div>
-    <p v-if="message">{{ message }}</p>
-    <div v-if="!loading">
-      <b-img thumbnail :src="sp.thumbnail" />
-      <p>{{ sp.name }}</p>
+    <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
+    <detailsview v-if="machine" v-bind:object="machine" />
+
+    <div v-if="machineModules">
+      <h3>Moduler</h3>
+      <objectList v-bind:objects="machineModules" v-bind:routeName="'module'" />
     </div>
   </div>
 </template>
+
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
+import DetailsView from "../components/DetailsView";
+import ObjectList from "../components/ObjectList";
 
 export default {
+  name: "Machine",
+  props: {
+    id: Number
+  },
+  components: {
+    detailsview: DetailsView,
+    objectList: ObjectList
+  },
   data() {
     return {
-      loading: true,
-      message: "",
-      sp: {}
+      alertType: "info",
+      message: "Henter maskine...",
+      machine: undefined,
+      machineModules: []
     };
   },
   computed: {
-    ...mapState(["MachineStore"]) //Map 'Machine' state from store/index
+    ...mapState(["MachineStore", "ModuleStore"]),
+    ...mapGetters("MachineStore", ["machinesLoaded", "getMachine"])
   },
   async created() {
     await this.loadMachine();
   },
   methods: {
-    ...mapActions(["getMachine"]),
-    async loadSparepart() {
-      this.loading = true;
-      this.message = "Henter maskine...";
+    ...mapActions("MachineStore", ["getMachines"]),
+    ...mapActions("ModuleStore", ["getMachineModules"]),
+    async loadMachine() {
+      if (!this.machinesLoaded) await this.getMachines();
 
-      await this.$store.dispatch("getMachine", this.$route.params.id);
+      this.machine = this.getMachine(this.id);
 
-      if (!this.MachineStore.Machine) {
-        this.$router.replace({
-          name: "error",
-          params: {
-            title: "Ikke fundet!",
-            message: "Reservedelen findes ikke."
-          }
-        });
+      if (this.machine) {
+        this.message = undefined;
+        await this.loadMachineModules();
+      } else if (this.MachineStore.error) {
+        this.message = this.MachineStore.error.message;
+        this.alertType = "danger";
       } else {
-        this.mc = this.MachineStore.Machine;
-        this.message = "";
-        this.loading = false;
+        this.message = "Maskinen findes ikke.";
+        this.alertType = "danger";
+      }
+    },
+    async loadMachineModules() {
+      await this.getMachineModules(this.machine.id);
+
+      this.machineModules = this.ModuleStore.machineModules;
+
+      if (this.machineModules.length > 0) {
+        this.message = undefined;
+      } else if (this.ModuleStore.error) {
+        this.message = this.ModuleStore.error.message;
+        this.alertType = "danger";
+      } else {
+        this.message = "Ingen moduler knyttet til denne maskine.";
+        this.alertType = "warning";
       }
     }
   }

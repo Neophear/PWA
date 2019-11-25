@@ -2,66 +2,55 @@
   <div>
     <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
     <div v-if="!loading">
-      <b-link
-        v-for="mc in MachineStore.machines"
-        :to="{ name: 'machine', params: { id: mc.id } }"
-        :key="mc.id"
-        class="machine"
-      >
-        <div>
-          <h1>{{ mc.name }}</h1>
-          <p>{{ mc.description }}</p>
-        </div>
-      </b-link>
+      <objectlist
+        v-bind:objects="MachineStore.machines"
+        v-bind:routeName="'machine'"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
+import ObjectList from "../components/ObjectList";
 
 export default {
+  components: {
+    objectlist: ObjectList
+  },
   data() {
     return {
       loading: true,
-      alertType: "danger"
+      alertType: "info",
+      message: "Henter maskiner..."
     };
   },
   computed: {
-    ...mapState(["MachineStore"]) //Map 'machine' state from store/index
+    ...mapState(["MachineStore"]), //Map 'machine' state from store/index
+    ...mapGetters(["MachineStore/machinesLoaded"]) //Could also be mapGetters("MachineStore", ["machinesLoaded"])
   },
   async created() {
     await this.loadMachines();
   },
   methods: {
-    ...mapActions(["getMachines"]),
+    ...mapActions("MachineStore", ["getMachines"]),
     setMessage(msg, type) {
       this.message = msg;
       this.alertType = type;
     },
     async loadMachines() {
-      this.setMessage("Henter maskiner...", "info");
-      this.getMachines()
-        .then(() => {
-          this.setMessage("");
-          this.loading = false;
-        })
-        .catch(err => {
-          this.loading = false;
-          if (!err.response) this.setMessage("Network error.", "danger");
-          else if (err.response.status === 401)
-            //TODO: Should display correct message
-            this.message = "Wrong username or password.";
-        });
+      if (!this.machinesLoaded) await this.getMachines();
+
+      if (this.MachineStore.machines.length > 0) {
+        this.setMessage(undefined);
+      } else if (this.MachineStore.error) {
+        this.setMessage(this.MachineStore.error.message, "danger");
+      } else {
+        this.setMessage("Ingen maskiner tilgængelige.", "warning");
+      }
+
+      this.loading = false;
     }
   }
 };
 </script>
-
-<style scoped>
-.sparepart {
-  border-radius: 5px;
-  background-color: #aaa;
-  max-width: 400px;
-}
-</style>
