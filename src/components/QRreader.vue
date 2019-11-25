@@ -1,10 +1,9 @@
-
 <template>
   <div>
     <b-button v-b-modal.qrscanner>
       <v-icon name="camera" />
     </b-button>
-    <b-modal id="qrscanner" title="Skan QR kode">
+    <b-modal id="qrscanner" ref="qrscanner" title="Skan QR kode">
       <b-alert variant="danger" :show="!camerasupported"
         >Camera not supported!</b-alert
       >
@@ -28,24 +27,18 @@ export default {
   },
   methods: {
     async onDecode(decodeString) {
-      //code = decodeString;
-      
-      api.getQR(decodeString)
-      .then(resp => this.decodeResponse(resp.data))
-      .catch(err => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-        this.code = "Kunne ikke indlæse QR, prøv igen";
-      });
+      await api
+        .getQR(decodeString)
+        .then(resp => this.decodeResponse(resp.data))
+        .catch(err => (this.code = err.message));
     },
     decodeResponse(data) {
-      // eslint-disable-next-line no-console
-      console.log(data);
-
-      this.$router.push({ name: data.type.toLowerCase(), params: { id: data.id }});
+      this.$refs["qrscanner"].hide();
+      this.$router.push({
+        name: data.type.toLowerCase(),
+        params: { id: data.id }
+      });
     }
-    
-    
   },
   mounted() {
     this.camerasupported =
