@@ -1,7 +1,6 @@
 <template>
-  <div id="app">
+  <div>
     <b-alert :show="message" :variant="alertType">{{ message }}</b-alert>
-
     <div v-if="!loading">
       <objectlist
         v-bind:objects="SparePartStore.spareparts"
