@@ -1,11 +1,8 @@
 <template>
-  <div class="home">
-    <b-button block :to="{ name: 'home' }">Søg</b-button>
-    <b-button block :to="{ name: 'home' }"
-      >Find den rigtige reservedel</b-button
-    >
+  <div>
+    <!-- <b-button block :to="{ name: 'home' }">Søg</b-button>
     <b-button block>Dokumenter</b-button>
-    <b-button block>Hjælp</b-button>
+    <b-button block>Hjælp</b-button>-->
     <b-button block :to="{ name: 'machines' }">Alle maskiner</b-button>
     <b-button block :to="{ name: 'modules' }">Alle moduler</b-button>
     <b-button block :to="{ name: 'spareparts' }">Alle reservedele</b-button>

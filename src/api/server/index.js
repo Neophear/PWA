@@ -3,6 +3,8 @@ import axios from "axios";
 import router from "../../router";
 import store from "../../store";
 
+const address = "https://localhost:44357";
+
 axios.interceptors.request.use(
   config => {
     const token = store.state.AuthStore.token;
@@ -40,40 +42,33 @@ axios.interceptors.response.use(
 
 export default {
   async getMachines() {
-    return await axios.get("https://localhost:44357/api/machine");
+    return await axios.get(address + "/api/machine");
   },
   async getMachine(id) {
-    return await axios.get("https://localhost:44357/api/machine/" + id);
+    return await axios.get(address + "/api/machine/" + id);
   },
   async getMachineModules(machineId) {
-    return await axios.get(
-      "https://localhost:44357/api/machine/" + machineId + "/modules"
-    );
+    return await axios.get(address + "/api/machine/" + machineId + "/modules");
   },
   async getModules() {
-    return await axios.get("https://localhost:44357/api/module");
+    return await axios.get(address + "/api/module");
   },
   async getModule(id) {
-    return await axios.get("https://localhost:44357/api/module/" + id);
+    return await axios.get(address + "/api/module/" + id);
   },
   async getSpareParts() {
-    return await axios.get("https://localhost:44357/api/sparepart");
+    return await axios.get(address + "/api/sparepart");
   },
   async getSparePart(id) {
-    return await axios.get("https://localhost:44357/api/sparepart/" + id);
+    return await axios.get(address + "/api/sparepart/" + id);
   },
   async getModuleSpareParts(moduleId) {
-    return await axios.get(
-      "https://localhost:44357/api/module/" + moduleId + "/spareparts"
-    );
+    return await axios.get(address + "/api/module/" + moduleId + "/spareparts");
   },
   async authenticate(user) {
-    return await axios.post(
-      "https://localhost:44357/api/authenticate/login",
-      user
-    );
+    return await axios.post(address + "/api/authenticate/login", user);
   },
-  async getQR(code){
-    return await axios.get("https://localhost:44357/api/search/" + code)
+  async getQR(code) {
+    return await axios.get(address + "/api/search/" + code);
   }
 };
