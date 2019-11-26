@@ -37,43 +37,42 @@ export default {
   },
   computed: {
     ...mapState(["ModuleStore", "SparePartStore"]),
-    ...mapGetters("ModuleStore", ["modulesLoaded"])
+    ...mapGetters("ModuleStore", ["modulesLoaded", "getModule"]),
+    ...mapGetters("SparePartStore", ["getSparePart"])
   },
   async created() {
     await this.loadModule();
   },
   methods: {
-    ...mapActions("ModuleStore", ["getModule"]),
-    ...mapActions("SparePartStore", ["getModuleSpareParts"]),
+    ...mapActions("ModuleStore", ["getModules"]),
     async loadModule() {
-      await this.getModule(this.id);
+      if (!this.modulesLoaded) await this.getModules();
 
-      this.module = this.ModuleStore.module;
+      this.module = this.getModule(this.id);
 
       if (this.module) {
         this.message = undefined;
-        await this.loadModuleSpareParts();
+
+        if (this.module.moduleSpareParts.length > 0) {
+          this.module.moduleSpareParts.forEach(async ms => {
+            var sparePart = this.getSparePart(ms.sparePartId);
+
+            if (sparePart) this.moduleSpareParts.push(sparePart);
+            else {
+              this.message = "En eller flere reservesdele blev ikke fundet.";
+              this.alertType = "danger";
+            }
+          });
+        } else {
+          this.message = "Ingen reservedele knyttet til dette modul.";
+          this.alertType = "warning";
+        }
       } else if (this.ModuleStore.error) {
         this.message = this.ModuleStore.error.message;
         this.alertType = "danger";
       } else {
         this.message = "Modulet findes ikke.";
         this.alertType = "danger";
-      }
-    },
-    async loadModuleSpareParts() {
-      await this.getModuleSpareParts(this.id);
-
-      this.moduleSpareParts = this.SparePartStore.moduleSpareParts;
-
-      if (this.moduleSpareParts.length > 0) {
-        this.message = undefined;
-      } else if (this.SparePartStore.error) {
-        this.message = this.SparePartStore.error.message;
-        this.alertType = "danger";
-      } else {
-        this.message = "Ingen reservedele knyttet til dette modul.";
-        this.alertType = "warning";
       }
     }
   }

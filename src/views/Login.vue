@@ -27,7 +27,15 @@
           placeholder="Indtast password"
         />
       </b-form-group>
-      <b-button type="submit" variant="primary" align-h="end">Login</b-button>
+      <b-button
+        type="submit"
+        variant="primary"
+        :disabled="loading"
+        align-h="end"
+      >
+        <div v-if="!loading">Login</div>
+        <b-spinner v-if="loading" label="Spinning" />
+      </b-button>
     </b-form>
   </div>
 </template>
@@ -39,6 +47,7 @@ export default {
   name: "Login",
   data() {
     return {
+      loading: false,
       msg: "",
       dismissCountDown: 0,
       form: {
@@ -49,6 +58,7 @@ export default {
   },
   methods: {
     onSubmit(e) {
+      this.loading = true;
       e.preventDefault();
       const { username, password } = this.form;
       this.$store
@@ -61,6 +71,7 @@ export default {
             this.msg = "Forkert brugernavn eller password.";
           else this.msg = err.message;
           this.dismissCountDown = 10;
+          this.loading = false;
         });
     }
   }

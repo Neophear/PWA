@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
 //Install app-shell in precache
 self.addEventListener("install", event => {
   event.waitUntil(
@@ -48,8 +50,8 @@ if (workbox) {
   //   })
   // );
   workbox.routing.registerRoute(
-    /^https:\/\/api\.myjson\.com\/bins\//,
-    workbox.strategies.StaleWhileRevalidate({
+    /^https:\/\/localhost:44357\//,
+    new workbox.strategies.StaleWhileRevalidate({
       cacheName: "api-cache",
       plugins: [
         new workbox.cacheableResponse.Plugin({ statuses: [0, 200] }),

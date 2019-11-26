@@ -4,6 +4,7 @@ import router from "../../router";
 import store from "../../store";
 
 const address = "https://localhost:44357";
+// const timeout = 2000;
 
 axios.interceptors.request.use(
   config => {
@@ -40,30 +41,18 @@ axios.interceptors.response.use(
   }
 );
 
+// const fetch = (mockData, time = 0) =>
+//   new Promise(resolve => setTimeout(() => resolve(mockData), time));
+
 export default {
   async getMachines() {
     return await axios.get(address + "/api/machine");
   },
-  async getMachine(id) {
-    return await axios.get(address + "/api/machine/" + id);
-  },
-  async getMachineModules(machineId) {
-    return await axios.get(address + "/api/machine/" + machineId + "/modules");
-  },
   async getModules() {
     return await axios.get(address + "/api/module");
   },
-  async getModule(id) {
-    return await axios.get(address + "/api/module/" + id);
-  },
   async getSpareParts() {
     return await axios.get(address + "/api/sparepart");
-  },
-  async getSparePart(id) {
-    return await axios.get(address + "/api/sparepart/" + id);
-  },
-  async getModuleSpareParts(moduleId) {
-    return await axios.get(address + "/api/module/" + moduleId + "/spareparts");
   },
   async authenticate(user) {
     return await axios.post(address + "/api/authenticate/login", user);

@@ -6,9 +6,7 @@ const state = {
 };
 
 const getters = {
-  getMachine: state => id => {
-    return state.machines.find(m => m.id === id);
-  },
+  getMachine: state => id => state.machines.find(m => m.id === id),
   machinesLoaded: state => state.machines.length > 0
 };
 

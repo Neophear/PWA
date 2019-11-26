@@ -26,17 +26,17 @@ export default {
   },
   computed: {
     ...mapState(["SparePartStore"]),
-    ...mapGetters("SparePartStore", ["sparePartsLoaded"])
+    ...mapGetters("SparePartStore", ["sparePartsLoaded", "getSparePart"])
   },
   async created() {
     await this.load();
   },
   methods: {
-    ...mapActions("SparePartStore", ["getSparePart"]),
+    ...mapActions("SparePartStore", ["getSpareParts"]),
     async load() {
-      await this.getSparePart(this.id);
+      if (!this.sparePartsLoaded) await this.getSpareParts();
 
-      this.sparepart = this.SparePartStore.sparepart;
+      this.sparepart = this.getSparePart(this.id);
 
       if (this.sparepart) {
         this.message = undefined;
