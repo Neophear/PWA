@@ -6,6 +6,9 @@
           <v-icon name="arrow-left-circle" />
         </b-button>
         <qrreader />
+        <b-button @click="logOut">
+          <v-icon name="log-out" />
+        </b-button>
       </b-row>
     </b-container>
     <router-view />
@@ -23,9 +26,6 @@
           <b-nav-item :to="{ name: 'machines' }">Maskiner</b-nav-item>
           <b-nav-item :to="{ name: 'modules' }">Moduler</b-nav-item>
           <b-nav-item :to="{ name: 'spareparts' }">Reservedele</b-nav-item>
-          <b-nav-item v-on:click="logOut">
-            <v-icon name="log-out" />
-          </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

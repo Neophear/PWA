@@ -57,9 +57,9 @@ export default {
           this.$router.push("/");
         })
         .catch(err => {
-          if (!err.response) this.msg = "Network error.";
-          else if (err.response.status === 401)
-            this.msg = "Wrong username or password.";
+          if (err.status === 401)
+            this.msg = "Forkert brugernavn eller password.";
+          else this.msg = err.message;
           this.dismissCountDown = 10;
         });
     }
