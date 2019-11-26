@@ -14,6 +14,9 @@ const mutations = {
   setSpareParts(state, spareparts) {
     state.spareparts = spareparts;
   },
+  clearSpareParts(state) {
+    state.spareparts = [];
+  },
   setError(state, error) {
     state.error = error;
   }
@@ -30,6 +33,9 @@ const actions = {
       .catch(error => {
         commit("setError", error);
       });
+  },
+  clearSpareParts({ commit }) {
+    commit("clearSpareParts");
   }
 };
 

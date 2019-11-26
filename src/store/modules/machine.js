@@ -14,6 +14,9 @@ const mutations = {
   setMachines(state, machines) {
     state.machines = machines;
   },
+  clearMachines(state) {
+    state.machines = [];
+  },
   setError(state, error) {
     state.error = error;
   }
@@ -30,6 +33,9 @@ const actions = {
       .catch(error => {
         commit("setError", error);
       });
+  },
+  clearMachines({ commit }) {
+    commit("clearMachines");
   }
 };
 

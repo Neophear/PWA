@@ -21,7 +21,7 @@ const getters = {
 
 const actions = {
   // eslint-disable-next-line no-unused-vars
-  [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
+  [AUTH_REQUEST]: ({ commit, dispatch, getters, rootGetters }, user) => {
     return new Promise((resolve, reject) => {
       commit(AUTH_REQUEST);
       api
@@ -29,6 +29,9 @@ const actions = {
         .then(function(resp) {
           localStorage.setItem("user-token", resp.data.token);
           commit(AUTH_SUCCESS, resp);
+          dispatch("MachineStore/getMachines", null, { root: true });
+          dispatch("ModuleStore/getModules", null, { root: true });
+          dispatch("SparePartStore/getSpareParts", null, { root: true });
           resolve(resp);
         })
         .catch(err => {
@@ -44,6 +47,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit(AUTH_LOGOUT);
       localStorage.removeItem("user-token");
+      dispatch("MachineStore/clearMachines", null, { root: true });
+      dispatch("ModuleStore/clearModules", null, { root: true });
+      dispatch("SparePartStore/clearSpareParts", null, { root: true });
       caches.keys().then(cacheNames => {
         cacheNames.forEach(cacheName => {
           caches.delete(cacheName);

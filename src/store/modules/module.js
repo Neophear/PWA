@@ -14,6 +14,9 @@ const mutations = {
   setModules(state, modules) {
     state.modules = modules;
   },
+  clearModules(state) {
+    state.modules = [];
+  },
   setError(state, error) {
     state.error = error;
   }
@@ -30,6 +33,9 @@ const actions = {
       .catch(error => {
         commit("setError", error);
       });
+  },
+  clearModules({ commit }) {
+    commit("clearModules");
   }
 };
 
