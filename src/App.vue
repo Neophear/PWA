@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    {{ message }}
     <b-container v-if="isAuthenticated" class="topBar">
       <b-row>
         <b-button v-if="this.$route.name != 'home'" @click="goBack">
@@ -41,14 +42,24 @@ export default {
   components: {
     qrreader: QRreader
   },
+  data() {
+    return {
+      message: ""
+    };
+  },
   computed: {
     ...mapGetters(["isAuthenticated"])
   },
   methods: {
     logOut() {
-      this.$store.dispatch(AUTH_LOGOUT).then(() => {
-        this.$router.push("/login");
-      });
+      this.$store
+        .dispatch(AUTH_LOGOUT)
+        .then(() => {
+          this.$router.push("login");
+        })
+        .catch(error => {
+          this.message = error;
+        });
     },
     goBack() {
       this.$router.back();

@@ -3,8 +3,7 @@ import axios from "axios";
 import router from "../../router";
 import store from "../../store";
 
-const address = "https://localhost:44357";
-// const timeout = 2000;
+const address = "https://sem4project.azurewebsites.net";
 
 axios.interceptors.request.use(
   config => {
@@ -30,7 +29,8 @@ axios.interceptors.response.use(
       var returnError = {};
       returnError.status = error.response ? error.response.status : 408;
 
-      if (!error.response) returnError.message = "Serveren svarede ikke.";
+      if (!error.response)
+        returnError.message = "Serveren svarede ikke." + address;
       else if (error.response.status.toString()[0] === "5")
         returnError.message = "Fejl på serveren.";
       else if (error.response.status === 404)
@@ -40,9 +40,6 @@ axios.interceptors.response.use(
     }
   }
 );
-
-// const fetch = (mockData, time = 0) =>
-//   new Promise(resolve => setTimeout(() => resolve(mockData), time));
 
 export default {
   async getMachines() {

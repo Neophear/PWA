@@ -10,8 +10,7 @@ import api from "api-client";
 
 const state = {
   token: localStorage.getItem("user-token") || "", //Should not be stored in localStorage: https://auth0.com/docs/security/store-tokens
-  status: "",
-  hasLoadedOnce: false
+  status: ""
 };
 
 const getters = {
@@ -21,7 +20,7 @@ const getters = {
 
 const actions = {
   // eslint-disable-next-line no-unused-vars
-  [AUTH_REQUEST]: ({ commit, dispatch, getters, rootGetters }, user) => {
+  [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
     return new Promise((resolve, reject) => {
       commit(AUTH_REQUEST);
       api
@@ -41,7 +40,6 @@ const actions = {
         });
     });
   },
-  // eslint-disable-next-line no-unused-vars
   [AUTH_LOGOUT]: ({ commit, dispatch }) => {
     // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
@@ -50,11 +48,7 @@ const actions = {
       dispatch("MachineStore/clearMachines", null, { root: true });
       dispatch("ModuleStore/clearModules", null, { root: true });
       dispatch("SparePartStore/clearSpareParts", null, { root: true });
-      caches.keys().then(cacheNames => {
-        cacheNames.forEach(cacheName => {
-          caches.delete(cacheName);
-        });
-      });
+
       resolve();
     });
   }
@@ -67,11 +61,9 @@ const mutations = {
   [AUTH_SUCCESS]: (state, resp) => {
     state.status = "success";
     state.token = resp.data.token;
-    state.hasLoadedOnce = true;
   },
   [AUTH_ERROR]: state => {
     state.status = "error";
-    state.hasLoadedOnce = true;
   },
   [AUTH_LOGOUT]: state => {
     state.token = "";
