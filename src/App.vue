@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    {{ message }}
     <b-container v-if="isAuthenticated" class="topBar">
       <b-row>
         <b-button
@@ -46,11 +45,6 @@ export default {
   components: {
     qrreader: QRreader
   },
-  data() {
-    return {
-      message: ""
-    };
-  },
   computed: {
     ...mapGetters(["isAuthenticated"])
   },
@@ -62,7 +56,8 @@ export default {
           this.$router.push("login");
         })
         .catch(error => {
-          this.message = error;
+          // eslint-disable-next-line no-console
+          console.log(error);
         });
     },
     goBack() {

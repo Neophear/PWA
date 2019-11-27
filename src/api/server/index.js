@@ -53,8 +53,5 @@ export default {
   },
   async authenticate(user) {
     return await axios.post(address + "/api/authenticate/login", user);
-  },
-  async getQR(code) {
-    return await axios.get(address + "/api/search/" + code);
   }
 };

@@ -49,6 +49,13 @@ const actions = {
       dispatch("ModuleStore/clearModules", null, { root: true });
       dispatch("SparePartStore/clearSpareParts", null, { root: true });
 
+      try {
+        caches.delete("api-cache");
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+
       resolve();
     });
   }
