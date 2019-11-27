@@ -3,11 +3,15 @@
     {{ message }}
     <b-container v-if="isAuthenticated" class="topBar">
       <b-row>
-        <b-button v-if="this.$route.name != 'home'" @click="goBack">
+        <b-button
+          v-if="this.$route.name != 'home'"
+          @click="goBack"
+          aria-label="Tilbage"
+        >
           <v-icon name="arrow-left-circle" />
         </b-button>
         <qrreader />
-        <b-button @click="logOut">
+        <b-button @click="logOut" aria-label="Log ud">
           <v-icon name="log-out" />
         </b-button>
       </b-row>

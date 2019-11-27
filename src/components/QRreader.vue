@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button v-b-modal.qrscanner>
+    <b-button v-b-modal.qrscanner aria-label="Åben QR-skanner">
       <v-icon name="camera" />
     </b-button>
     <b-modal id="qrscanner" ref="qrscanner" title="Skan QR kode">
