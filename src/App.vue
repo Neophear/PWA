@@ -1,21 +1,24 @@
 <template>
   <div id="app">
-    <b-container v-if="isAuthenticated" class="topBar">
-      <b-row>
-        <b-button
-          v-if="this.$route.name != 'home'"
-          @click="goBack"
-          aria-label="Tilbage"
-        >
-          <v-icon name="arrow-left-circle" />
-        </b-button>
-        <qrreader />
-        <b-button @click="logOut" aria-label="Log ud">
-          <v-icon name="log-out" />
-        </b-button>
-      </b-row>
-    </b-container>
-    <router-view />
+    <div v-if="isAuthenticated" class="topBar">
+      <b-button
+        v-if="this.$route.name != 'home'"
+        @click="goBack"
+        aria-label="Tilbage"
+      >
+        <v-icon name="arrow-left-circle" />
+      </b-button>
+      <qrreader />
+      <b-button @click="logOut" aria-label="Log ud">
+        <v-icon name="log-out" />
+      </b-button>
+      <div v-if="this.$store.state.AuthStore.username">
+        Velkommen {{ this.$store.state.AuthStore.username }}
+      </div>
+    </div>
+    <main>
+      <router-view />
+    </main>
     <b-navbar
       fixed="bottom"
       toggleable="lg"
@@ -48,12 +51,15 @@ export default {
   computed: {
     ...mapGetters(["isAuthenticated"])
   },
+  async mounted() {
+    await this.$store.dispatch("loadObjects");
+  },
   methods: {
     logOut() {
       this.$store
         .dispatch(AUTH_LOGOUT)
         .then(() => {
-          this.$router.push("login");
+          this.$router.push({ name: "login" });
         })
         .catch(error => {
           // eslint-disable-next-line no-console
@@ -92,7 +98,8 @@ export default {
 .topBar {
   margin-bottom: 10px;
 }
-.topBar button {
+.topBar > * {
   margin-right: 10px;
+  display: inline-block;
 }
 </style>

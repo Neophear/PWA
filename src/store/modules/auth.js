@@ -10,7 +10,8 @@ import api from "api-client";
 
 const state = {
   token: localStorage.getItem("user-token") || "", //Should not be stored in localStorage: https://auth0.com/docs/security/store-tokens
-  status: ""
+  status: "",
+  username: ""
 };
 
 const getters = {
@@ -68,12 +69,14 @@ const mutations = {
   [AUTH_SUCCESS]: (state, resp) => {
     state.status = "success";
     state.token = resp.data.token;
+    state.username = resp.data.username;
   },
   [AUTH_ERROR]: state => {
     state.status = "error";
   },
   [AUTH_LOGOUT]: state => {
     state.token = "";
+    state.username = "";
   }
 };
 

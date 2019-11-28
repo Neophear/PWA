@@ -12,20 +12,30 @@ export default new Vuex.Store({
   getters: {
     searchForBarcode: state => barcode => {
       var machine = state.MachineStore.machines.find(m => m.barcode == barcode);
-
       if (machine) return { type: "machine", id: machine.id };
 
       var module = state.ModuleStore.modules.find(m => m.barcode == barcode);
-
       if (module) return { type: "module", id: module.id };
 
       var sparepart = state.SparePartStore.spareparts.find(
         s => s.barcode == barcode
       );
-
       if (sparepart) return { type: "sparepart", id: sparepart.id };
 
       return undefined;
+    }
+  },
+  actions: {
+    // eslint-disable-next-line no-unused-vars
+    async loadObjects({ commit }) {
+      if (!this.state.MachineStore.machinesLoaded)
+        await this.dispatch("MachineStore/getMachines");
+
+      if (!this.state.ModuleStore.modulesLoaded)
+        await this.dispatch("ModuleStore/getModules");
+
+      if (!this.state.SparePartStore.sparePartsLoaded)
+        await this.dispatch("SparePartStore/getSpareParts");
     }
   },
   modules: {
