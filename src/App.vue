@@ -52,7 +52,7 @@ export default {
     ...mapGetters(["isAuthenticated"])
   },
   async mounted() {
-    await this.$store.dispatch("loadObjects");
+    if (this.isAuthenticated) await this.$store.dispatch("loadObjects");
   },
   methods: {
     logOut() {

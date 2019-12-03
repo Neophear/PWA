@@ -21,7 +21,7 @@ axios.interceptors.response.use(
   error => {
     if (
       error.response &&
-      error.response.status === 401 &&
+      error.response.status == 401 &&
       !error.config.url.endsWith("/login")
     )
       router.push({ name: "login" });
