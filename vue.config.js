@@ -9,9 +9,12 @@ module.exports = {
     );
   },
   pwa: {
+    name: "4. Semester PWA",
+    short_name: "4SEM PWA",
+    start_url: "/",
     themeColor: "#aeaecf",
     appleMobileWebAppCapable: "yes",
-    // appleMobileWebAppStatusBarStyle: "black",
+    appleMobileWebAppStatusBarStyle: "black",
     iconPaths: {
       favicon32: "img/icons/icon-32x32.png",
       favicon16: "img/icons/icon-16x16.png",
