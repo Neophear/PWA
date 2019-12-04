@@ -10,12 +10,29 @@
     <b-link href="https://google.dk/" target="_blank"
       >Google i nyt vindue</b-link
     >
+    <div class="location">{{ location }}</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "home"
+  name: "home",
+  data() {
+    return {
+      location: "Henter lokation..."
+    };
+  },
+  mounted() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.location =
+          "Lokation: " &
+          (position.coords.latitude + "," + position.coords.longitude);
+      });
+    } else {
+      this.location = "Geo Location not supported by browser";
+    }
+  }
 };
 </script>
 
