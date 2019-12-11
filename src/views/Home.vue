@@ -10,7 +10,11 @@
     <b-button class="link" href="https://google.dk/" target="_blank"
       >Google i nyt vindue</b-button
     >
-    <div class="location">{{ location }}</div>
+    <br />
+    <b-button class="link" v-if="!location" @click="getLocation"
+      >Vis lokation</b-button
+    >
+    <div v-if="location" class="location">{{ location }}</div>
   </div>
 </template>
 
@@ -19,18 +23,20 @@ export default {
   name: "home",
   data() {
     return {
-      location: "Henter lokation..."
+      location: undefined
     };
   },
-  mounted() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.location =
-          "Lokation: " +
-          (position.coords.latitude + "," + position.coords.longitude);
-      });
-    } else {
-      this.location = "Geo Location not supported by browser";
+  methods: {
+    getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(position => {
+          this.location =
+            "Lokation: " +
+            (position.coords.latitude + "," + position.coords.longitude);
+        });
+      } else {
+        this.location = "Geo Location not supported by browser";
+      }
     }
   }
 };
