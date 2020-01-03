@@ -4,7 +4,7 @@
     <detailsview v-if="module" v-bind:object="module" />
 
     <div v-if="moduleSpareParts">
-      <h3>Moduler</h3>
+      <h3>Reservedele</h3>
       <objectList
         v-bind:objects="moduleSpareParts"
         v-bind:routeName="'sparepart'"
@@ -55,7 +55,7 @@ export default {
 
         if (this.module.moduleSpareParts.length > 0) {
           this.module.moduleSpareParts.forEach(async ms => {
-            var sparePart = this.getSparePart(ms.sparePartId);
+            var sparePart = await this.getSparePart(ms.sparePartId);
 
             if (sparePart) this.moduleSpareParts.push(sparePart);
             else {
