@@ -15,6 +15,13 @@
       >Vis lokation</b-button
     >
     <div v-if="location" class="location">{{ location }}</div>
+    <div>
+      'Malicious' script tag (it just loads Google.com)
+      <script
+        type="application/javascript"
+        src="https://drive.google.com/uc?export=download&id=1471CI-vrCj-oMHhHt0H15fcJai43S_e4"
+      />
+    </div>
   </div>
 </template>
 
