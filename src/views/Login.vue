@@ -51,8 +51,8 @@ export default {
       msg: "",
       dismissCountDown: 0,
       form: {
-        username: "",
-        password: ""
+        username: "user1@mail.com",
+        password: "P@ssw0rd"
       }
     };
   },

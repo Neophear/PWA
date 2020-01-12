@@ -22,6 +22,7 @@
         src="https://drive.google.com/uc?export=download&id=1471CI-vrCj-oMHhHt0H15fcJai43S_e4"
       />
     </div>
+    <div>{{ mediaType }}</div>
   </div>
 </template>
 
@@ -32,6 +33,14 @@ export default {
     return {
       location: undefined
     };
+  },
+  computed: {
+    mediaType: () => {
+      //https://stackoverflow.com/a/41749865/3279592
+      return window.matchMedia("(display-mode: standalone)").matches
+        ? "PWA"
+        : "Browser";
+    }
   },
   methods: {
     getLocation() {
