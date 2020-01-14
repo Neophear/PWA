@@ -36,9 +36,8 @@ export default {
   },
   computed: {
     mediaType: () => {
-      //https://stackoverflow.com/a/41749865/3279592
       return window.matchMedia("(display-mode: standalone)").matches
-        ? "PWA"
+        ? "Installed"
         : "Browser";
     }
   },
